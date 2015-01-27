@@ -21,7 +21,9 @@ void usage(char *name) {
 }
 
 static int do_stop=0;
+#if 0
 static timer_t timer_id;
+#endif
 static struct timeval start_time;
 static int verbose = 0;
 static int unicode = 0;
@@ -126,10 +128,16 @@ int main (int argc, char *argv[]){
 	libnet_t       *l;
 	libnet_ptag_t   eth_ptag = 0;
 	u_char buf[0x100];
+#if 0
 	struct itimerspec tspec;
-
 	memset(&tspec, 0, sizeof(tspec));
 	tspec.it_value.tv_sec = 3;
+#else
+	struct itimerval itimer;
+	memset(&itimer, 0, sizeof(itimer));
+	itimer.it_value.tv_sec = 3;
+#endif
+
 
         while ((c = getopt(argc, argv, "t:i:hvu")) != EOF) {
                 switch (c) {
@@ -142,8 +150,13 @@ int main (int argc, char *argv[]){
 #ifndef __linux__				
 				if( i > PCAP_PERIOD ) i-=PCAP_PERIOD-10; // try to be more precise
 #endif				
+#if 0 
 				tspec.it_value.tv_sec = i/1000;
 				tspec.it_value.tv_nsec = (i%1000)*1000000;
+#else
+				itimer.it_value.tv_sec = i/1000;
+				itimer.it_value.tv_usec = (i%1000)*1000;
+#endif
 			}
                         break;
                 case 'v': // verbosity
@@ -260,8 +273,12 @@ int main (int argc, char *argv[]){
 
 	gettimeofday(&start_time, NULL);
 	
+#if 0
 	timer_create(CLOCK_MONOTONIC, NULL, &timer_id);
 	timer_settime(timer_id, 0, &tspec, NULL);
+#else
+	setitimer(ITIMER_REAL, &itimer, (struct itimerval *)0);
+#endif
 
 	// don't know why, but pcap_dispatch does not return control to main after
 	// timeout expires. so, we use nonblocking pcap on linux.

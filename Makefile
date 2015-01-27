@@ -10,10 +10,10 @@ SUDO=sudo
 
 CC=gcc
 # explicit pcap include dir is for redhat which is fux0red
-CFLAGS=-g -I/usr/local/include -L/usr/local/lib -DFINDIF=$(FINDIF) -DUSE_NETIF=$(USE_NETIF) -DOPENBSD=$(OPENBSD) -DLINUX=$(LINUX) -DSOLARIS=$(SOLARIS) -DFREEBSD=$(FREEBSD) -DMACOSX=$(MACOSX) -I/usr/include/pcap -L/opt/csw/lib -R/opt/csw/lib
+CFLAGS=-g -I/opt/local/include -L/opt/local/lib -DFINDIF=$(FINDIF) -DUSE_NETIF=$(USE_NETIF) -DOPENBSD=$(OPENBSD) -DLINUX=$(LINUX) -DSOLARIS=$(SOLARIS) -DFREEBSD=$(FREEBSD) -DMACOSX=$(MACOSX) -I/opt/local/include/pcap -L/opt/csw/lib -R/opt/csw/lib
 
-CFLAGS2=-g -I/usr/local/include -I/usr/local/include/libnet-1.1 -I/usr/include/pcap -I/usr/local/include/libnet11
-LDFLAGS2=-g -L/usr/local/lib -L/usr/local/lib/libnet-1.1 -L/opt/csw/lib -L/usr/local/lib/libnet11 -L/usr/local/lib/libnet113
+CFLAGS2=-g -I/usr/local/include -I/opt/local/include/ -I/opt/local/include/pcap -I/usr/local/include/libnet
+LDFLAGS2=-g -L/opt/local/lib -L/usr/local/lib/libnet-1.1 -L/opt/csw/lib -L/usr/local/lib/libnet11 -L/usr/local/lib/libnet113
 
 all: lltdscan
 
@@ -30,7 +30,7 @@ EXTRA_LIBS=-lsocket -lnsl
 endif
 
 lltdscan: lltdscan.c lltd.c
-	$(CC) $(CFLAGS2) $(LDFLAGS2) -o lltdscan lltdscan.c -lnet -lpcap -lrt $(EXTRA_LIBS)
+	$(CC) $(CFLAGS2) $(LDFLAGS2) -o lltdscan lltdscan.c -lnet -lpcap $(EXTRA_LIBS)
 
 clean:
 	rm -f *.o $(TARGETS)
