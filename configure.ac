@@ -13,10 +13,15 @@ AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
+dnl PCAP-setup
+AC_LBL_C_INIT_BEFORE_CC(V_INCLS)
+
 dnl Checks for programs.
+AC_PROG_CC
+AC_LBL_C_INIT(V_CCOPT, V_INCLS)
+AC_LBL_C_INLINE
 AC_PROG_CXX
 AC_PROG_AWK
-AC_PROG_CC
 AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
@@ -42,12 +47,51 @@ AC_REQUIRE_CPP
 AC_PROG_CC_C_O
 AC_EXEEXT
 
-
 AC_HEADER_STDC
 AC_HEADER_TIME
 AC_CHECK_HEADERS([stdlib.h sys/time.h])
 dnl Check for libmath
 AC_CHECK_LIB([m],[cos])
+
+dnl Check for libpcap
+AC_LBL_LIBPCAP(V_PCAPDEP, V_INCLS)
+
+
+dnl Checks for (installed) libdnet
+AC_MSG_CHECKING(for libdnet)
+AC_ARG_WITH(libdnet,
+[  --with-libnet=DIR      use libnet in DIR],
+[ case "$withval" in
+  yes|no)
+     AC_MSG_RESULT(no)
+     ;;
+  *)
+     AC_MSG_RESULT($withval)
+     if test -f $withval/lib/libnet.a; then
+        NETINC="-I$withval/include"
+        NETLIB="-L$withval/lib -lnet `$withval/net-config --libs`"
+     elif test -x $withval/bin/libnet-config; then
+        NETINC="`$withval/bin/libnet-config --cflags`"
+        NETLIB="`$withval/bin/libnet-config --libs`"
+     else
+        AC_ERROR(libnet-config not found in $withval/bin)
+     fi
+     ;;
+  esac ],
+[ 
+  AC_PATH_TOOL(LIBNET_CONFIG, libnet-config)
+  if test -n "$LIBNET_CONFIG" ; then
+     NETINC="`"$LIBNET_CONFIG" --cflags`"
+     NETLIB="`"$LIBNET_CONFIG" --libs`"
+  else
+     AC_MSG_RESULT(no)
+     AC_ERROR(libnet not found)
+  fi
+  AC_MSG_RESULT(yes) ]
+)
+AC_SUBST(NETINC)
+AC_SUBST(NETLIB)
+LIBS="$LIBS $NETLIB"
 
 dnl check if types are defined.
 AC_TYPE_SIZE_T
@@ -71,6 +115,12 @@ AC_C_CHAR_UNSIGNED
 AC_C_STRINGIZE
 AC_C_BIGENDIAN
 AC_FUNC_SELECT_ARGTYPES
+
+dnl subst
+AC_SUBST(V_CCOPT)
+AC_SUBST(V_DEFS)
+AC_SUBST(V_INCLS)
+AC_SUBST(V_PCAPDEP)
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

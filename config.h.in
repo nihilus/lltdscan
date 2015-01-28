@@ -24,6 +24,30 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
+/* Define to 1 if you have the `pcap_breakloop' function. */
+#undef HAVE_PCAP_BREAKLOOP
+
+/* define if libpcap has pcap_datalink_name_to_val() */
+#undef HAVE_PCAP_DATALINK_NAME_TO_VAL
+
+/* define if libpcap has pcap_datalink_val_to_description() */
+#undef HAVE_PCAP_DATALINK_VAL_TO_DESCRIPTION
+
+/* define if libpcap has pcap_dump_ftell() */
+#undef HAVE_PCAP_DUMP_FTELL
+
+/* Define to 1 if you have the `pcap_free_datalinks' function. */
+#undef HAVE_PCAP_FREE_DATALINKS
+
+/* define if libpcap has pcap_list_datalinks() */
+#undef HAVE_PCAP_LIST_DATALINKS
+
+/* Define to 1 if you have the `pcap_set_datalink' function. */
+#undef HAVE_PCAP_SET_DATALINK
+
+/* Define to 1 if you have the `pfopen' function. */
+#undef HAVE_PFOPEN
+
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
 
