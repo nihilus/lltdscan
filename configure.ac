@@ -1,14 +1,12 @@
 dnl
-dnl   Copyright (C) 2013, Dovado Europe AB
-dnl
-dnl   Author Markus Gothe <markus@dovado.com
+dnl   Author Markus Gothe <nietzsche@lysator.liu.se>
 dnl
 
 dnl Process this file with autoconf to produce a configure script.
 
 dnl init autoconf
 AC_REQ(2.63)
-AC_INIT([Sun Rise],[0.1.1],[Mike Chirico mchirico@comcast.net])
+AC_INIT([lltdscanner],[0.1.1],[Markus Gothe nietzsche@lysator.liu.se])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 AC_CANONICAL_BUILD

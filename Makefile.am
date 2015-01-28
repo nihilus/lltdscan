@@ -1,7 +1,5 @@
 #
-#   Copyright (C) 2013, Dovado Europe AB
-#
-#   Author Markus Gothe <markus@dovado.com
+#   Author Markus Gothe <nietzsche@lysator.liu.se>
 #
 
 ## Process this file with automake to produce Makefile.in
@@ -10,15 +8,15 @@ AUTOMAKE_OPTIONS = foreign std-options
 ACLOCAL_AMFLAGS = -I m4
 
 ##Linking
-#noinst_LIBRARIES = libsunrise.a
-#libsunrise_a_SOURCES = sunrise.c
+#noinst_LIBRARIES = liblltd.a
+#libsunrise_a_SOURCES = lltd.c
 
 ## What programs do we want to build?
 
 bin_PROGRAMS = sunrise$(EXEEXT)
-sunrise_SOURCES = sunrise.c
-sunrise_LDFLAGS = -all-static
-#sunrise_LDADD = libsunrise.a
+sunrise_SOURCES = lltdscanner.c
+#sunrise_LDFLAGS = -all-static
+#sunrise_LDADD = liblltd.a
 EXTRA_PROGRAMS = 
 
 
