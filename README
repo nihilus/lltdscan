@@ -11,7 +11,7 @@ see all your neighbours that have the MS Windows installed and have
 not unchecked the "Link-Layer Topology Discovery Responder" in their
 Network Connection settings.
 
-Works starting from XP(sp3 ?), works on Vista, needs testing on W2k7.
+Works starting from XP(sp2).
 
 IMPORTANT: LLTD is a level 2 protocol - i.e. it not runs over ip or tcp or udp
 or anything. So, you can get other PC's info even if they live in different IP
@@ -49,11 +49,10 @@ found 1 hosts in 1.302 seconds
 
 = LICENSE =
 
-Public Domain.
+GPL v3.
 
 
 = CONTACTS =
 
-zed [dot] 0xff [at] gmail.com
-http://github.com/zed-0xff/lltdscan
-http://zed.0xff.me/
+nietzsche@lysator.liu.se
+http://github.com/nihilus/lltdscan

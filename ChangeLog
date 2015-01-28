@@ -1,0 +1,4 @@
+2015-0-28 Markus Gothe <nietzsche@lysator.liu.se>
+
+        * Forked and fixed timer-issues on OS X.
+        * Added autoconf-scripts
