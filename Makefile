@@ -19,6 +19,8 @@
 #
 
 
+
+
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
     false; \
@@ -96,20 +98,48 @@ target_triplet = x86_64-apple-darwin13.4.0
 EXTRA_PROGRAMS =
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/libpcap.m4 \
-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
+	$(top_srcdir)/m4/absolute-header.m4 $(top_srcdir)/m4/alloca.m4 \
+	$(top_srcdir)/m4/errno_h.m4 $(top_srcdir)/m4/exponentd.m4 \
+	$(top_srcdir)/m4/exponentf.m4 $(top_srcdir)/m4/exponentl.m4 \
+	$(top_srcdir)/m4/extensions.m4 \
+	$(top_srcdir)/m4/extern-inline.m4 $(top_srcdir)/m4/float_h.m4 \
+	$(top_srcdir)/m4/fpieee.m4 $(top_srcdir)/m4/frexp.m4 \
+	$(top_srcdir)/m4/frexpl.m4 $(top_srcdir)/m4/gnulib-common.m4 \
+	$(top_srcdir)/m4/gnulib-comp.m4 \
+	$(top_srcdir)/m4/include_next.m4 $(top_srcdir)/m4/intmax_t.m4 \
+	$(top_srcdir)/m4/inttypes_h.m4 $(top_srcdir)/m4/isnand.m4 \
+	$(top_srcdir)/m4/isnanf.m4 $(top_srcdir)/m4/isnanl.m4 \
+	$(top_srcdir)/m4/ldexpl.m4 $(top_srcdir)/m4/libpcap.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/longlong.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/m4/math_h.m4 $(top_srcdir)/m4/memchr.m4 \
+	$(top_srcdir)/m4/mmap-anon.m4 $(top_srcdir)/m4/multiarch.m4 \
+	$(top_srcdir)/m4/nocrash.m4 $(top_srcdir)/m4/off_t.m4 \
+	$(top_srcdir)/m4/onceonly.m4 $(top_srcdir)/m4/printf-frexp.m4 \
+	$(top_srcdir)/m4/printf-frexpl.m4 $(top_srcdir)/m4/printf.m4 \
+	$(top_srcdir)/m4/signbit.m4 $(top_srcdir)/m4/size_max.m4 \
+	$(top_srcdir)/m4/snprintf-posix.m4 \
+	$(top_srcdir)/m4/snprintf.m4 $(top_srcdir)/m4/ssize_t.m4 \
+	$(top_srcdir)/m4/stddef_h.m4 $(top_srcdir)/m4/stdint.m4 \
+	$(top_srcdir)/m4/stdint_h.m4 $(top_srcdir)/m4/stdio_h.m4 \
+	$(top_srcdir)/m4/string_h.m4 $(top_srcdir)/m4/sys_types_h.m4 \
+	$(top_srcdir)/m4/vasnprintf.m4 $(top_srcdir)/m4/warn-on-use.m4 \
+	$(top_srcdir)/m4/wchar_h.m4 $(top_srcdir)/m4/wchar_t.m4 \
+	$(top_srcdir)/m4/wint_t.m4 $(top_srcdir)/m4/xsize.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
-	$(am__configure_deps) $(am__DIST_COMMON)
+	$(am__configure_deps) $(noinst_HEADERS) $(am__DIST_COMMON)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
+LTLIBRARIES = $(noinst_LTLIBRARIES)
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man8dir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_lltdscan_OBJECTS = lltdscan.$(OBJEXT)
@@ -155,6 +185,14 @@ am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(lltdscan_SOURCES)
 DIST_SOURCES = $(lltdscan_SOURCES)
+RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
+	ctags-recursive dvi-recursive html-recursive info-recursive \
+	install-data-recursive install-dvi-recursive \
+	install-exec-recursive install-html-recursive \
+	install-info-recursive install-pdf-recursive \
+	install-ps-recursive install-recursive installcheck-recursive \
+	installdirs-recursive pdf-recursive ps-recursive \
+	tags-recursive uninstall-recursive
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -190,6 +228,15 @@ am__uninstall_files_from_dir = { \
 man8dir = $(mandir)/man8
 NROFF = nroff
 MANS = $(man_MANS)
+HEADERS = $(noinst_HEADERS)
+RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
+  distclean-recursive maintainer-clean-recursive
+am__recursive_targets = \
+  $(RECURSIVE_TARGETS) \
+  $(RECURSIVE_CLEAN_TARGETS) \
+  $(am__extra_recursive_targets)
+AM_RECURSIVE_TARGETS = $(am__recursive_targets:-recursive=) TAGS CTAGS \
+	cscope distdir dist dist-all distcheck
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) \
 	$(LISP)config.h.in
 # Read a list of newline-separated strings from the standard input,
@@ -211,7 +258,7 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
-AM_RECURSIVE_TARGETS = cscope
+DIST_SUBDIRS = $(SUBDIRS)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in AUTHORS \
 	COPYING ChangeLog INSTALL NEWS README compile config.guess \
 	config.sub depcomp install-sh ltmain.sh missing
@@ -225,21 +272,55 @@ am__remove_distdir = \
       || { sleep 5 && rm -rf "$(distdir)"; }; \
   else :; fi
 am__post_remove_distdir = $(am__remove_distdir)
-DIST_ARCHIVES = $(distdir).tar.gz
+am__relativize = \
+  dir0=`pwd`; \
+  sed_first='s,^\([^/]*\)/.*$$,\1,'; \
+  sed_rest='s,^[^/]*/*,,'; \
+  sed_last='s,^.*/\([^/]*\)$$,\1,'; \
+  sed_butlast='s,/*[^/]*$$,,'; \
+  while test -n "$$dir1"; do \
+    first=`echo "$$dir1" | sed -e "$$sed_first"`; \
+    if test "$$first" != "."; then \
+      if test "$$first" = ".."; then \
+        dir2=`echo "$$dir0" | sed -e "$$sed_last"`/"$$dir2"; \
+        dir0=`echo "$$dir0" | sed -e "$$sed_butlast"`; \
+      else \
+        first2=`echo "$$dir2" | sed -e "$$sed_first"`; \
+        if test "$$first2" = "$$first"; then \
+          dir2=`echo "$$dir2" | sed -e "$$sed_rest"`; \
+        else \
+          dir2="../$$dir2"; \
+        fi; \
+        dir0="$$dir0"/"$$first"; \
+      fi; \
+    fi; \
+    dir1=`echo "$$dir1" | sed -e "$$sed_rest"`; \
+  done; \
+  reldir="$$dir2"
+DIST_ARCHIVES = $(distdir).tar.gz $(distdir).tar.bz2
 GZIP_ENV = --best
-DIST_TARGETS = dist-gzip
+DIST_TARGETS = dist-bzip2 dist-gzip
 distuninstallcheck_listfiles = find . -type f -print
 am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
   | sed 's|^\./|$(prefix)/|' | grep -v '$(infodir)/dir$$'
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} /Users/nietzsche/Downloads/lltdscan/missing aclocal-1.15
+ACLOCAL = ${SHELL} /Users/nietzsche/lltdscan/missing aclocal-1.15
+ALLOCA = 
+ALLOCA_H = alloca.h
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
+APPLE_UNIVERSAL_BUILD = 0
 AR = ar
-AUTOCONF = ${SHELL} /Users/nietzsche/Downloads/lltdscan/missing autoconf
-AUTOHEADER = ${SHELL} /Users/nietzsche/Downloads/lltdscan/missing autoheader
-AUTOMAKE = ${SHELL} /Users/nietzsche/Downloads/lltdscan/missing automake-1.15
+ARFLAGS = cru
+AUTOCONF = ${SHELL} /Users/nietzsche/lltdscan/missing autoconf
+AUTOHEADER = ${SHELL} /Users/nietzsche/lltdscan/missing autoheader
+AUTOMAKE = ${SHELL} /Users/nietzsche/lltdscan/missing automake-1.15
 AWK = gawk
+BITSIZEOF_PTRDIFF_T = 64
+BITSIZEOF_SIG_ATOMIC_T = 32
+BITSIZEOF_SIZE_T = 64
+BITSIZEOF_WCHAR_T = 32
+BITSIZEOF_WINT_T = 32
 CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2
@@ -259,9 +340,431 @@ ECHO_C = \c
 ECHO_N = 
 ECHO_T = 
 EGREP = /usr/bin/grep -E
+EMULTIHOP_HIDDEN = 
+EMULTIHOP_VALUE = 
+ENOLINK_HIDDEN = 
+ENOLINK_VALUE = 
+EOVERFLOW_HIDDEN = 
+EOVERFLOW_VALUE = 
+ERRNO_H = 
 EXEEXT = 
 FGREP = /usr/bin/grep -F
+FLOAT_H = 
+GNULIB_ACOSF = 0
+GNULIB_ACOSL = 0
+GNULIB_ASINF = 0
+GNULIB_ASINL = 0
+GNULIB_ATAN2F = 0
+GNULIB_ATANF = 0
+GNULIB_ATANL = 0
+GNULIB_BTOWC = 0
+GNULIB_CBRT = 0
+GNULIB_CBRTF = 0
+GNULIB_CBRTL = 0
+GNULIB_CEIL = 0
+GNULIB_CEILF = 0
+GNULIB_CEILL = 0
+GNULIB_COPYSIGN = 0
+GNULIB_COPYSIGNF = 0
+GNULIB_COPYSIGNL = 0
+GNULIB_COSF = 0
+GNULIB_COSHF = 0
+GNULIB_COSL = 0
+GNULIB_DPRINTF = 0
+GNULIB_EXP2 = 0
+GNULIB_EXP2F = 0
+GNULIB_EXP2L = 0
+GNULIB_EXPF = 0
+GNULIB_EXPL = 0
+GNULIB_EXPM1 = 0
+GNULIB_EXPM1F = 0
+GNULIB_EXPM1L = 0
+GNULIB_FABSF = 0
+GNULIB_FABSL = 0
+GNULIB_FCLOSE = 0
+GNULIB_FDOPEN = 0
+GNULIB_FFLUSH = 0
+GNULIB_FFSL = 0
+GNULIB_FFSLL = 0
+GNULIB_FGETC = 1
+GNULIB_FGETS = 1
+GNULIB_FLOOR = 0
+GNULIB_FLOORF = 0
+GNULIB_FLOORL = 0
+GNULIB_FMA = 0
+GNULIB_FMAF = 0
+GNULIB_FMAL = 0
+GNULIB_FMOD = 0
+GNULIB_FMODF = 0
+GNULIB_FMODL = 0
+GNULIB_FOPEN = 0
+GNULIB_FPRINTF = 1
+GNULIB_FPRINTF_POSIX = 0
+GNULIB_FPURGE = 0
+GNULIB_FPUTC = 1
+GNULIB_FPUTS = 1
+GNULIB_FREAD = 1
+GNULIB_FREOPEN = 0
+GNULIB_FREXP = 1
+GNULIB_FREXPF = 0
+GNULIB_FREXPL = 1
+GNULIB_FSCANF = 1
+GNULIB_FSEEK = 0
+GNULIB_FSEEKO = 0
+GNULIB_FTELL = 0
+GNULIB_FTELLO = 0
+GNULIB_FWRITE = 1
+GNULIB_GETC = 1
+GNULIB_GETCHAR = 1
+GNULIB_GETDELIM = 0
+GNULIB_GETLINE = 0
+GNULIB_HYPOT = 0
+GNULIB_HYPOTF = 0
+GNULIB_HYPOTL = 0
+GNULIB_ILOGB = 0
+GNULIB_ILOGBF = 0
+GNULIB_ILOGBL = 0
+GNULIB_ISFINITE = 0
+GNULIB_ISINF = 0
+GNULIB_ISNAN = 0
+GNULIB_ISNAND = 0
+GNULIB_ISNANF = 0
+GNULIB_ISNANL = 0
+GNULIB_LDEXPF = 0
+GNULIB_LDEXPL = 0
+GNULIB_LOG = 0
+GNULIB_LOG10 = 0
+GNULIB_LOG10F = 0
+GNULIB_LOG10L = 0
+GNULIB_LOG1P = 0
+GNULIB_LOG1PF = 0
+GNULIB_LOG1PL = 0
+GNULIB_LOG2 = 0
+GNULIB_LOG2F = 0
+GNULIB_LOG2L = 0
+GNULIB_LOGB = 0
+GNULIB_LOGBF = 0
+GNULIB_LOGBL = 0
+GNULIB_LOGF = 0
+GNULIB_LOGL = 0
+GNULIB_MBRLEN = 0
+GNULIB_MBRTOWC = 0
+GNULIB_MBSCASECMP = 0
+GNULIB_MBSCASESTR = 0
+GNULIB_MBSCHR = 0
+GNULIB_MBSCSPN = 0
+GNULIB_MBSINIT = 0
+GNULIB_MBSLEN = 0
+GNULIB_MBSNCASECMP = 0
+GNULIB_MBSNLEN = 0
+GNULIB_MBSNRTOWCS = 0
+GNULIB_MBSPBRK = 0
+GNULIB_MBSPCASECMP = 0
+GNULIB_MBSRCHR = 0
+GNULIB_MBSRTOWCS = 0
+GNULIB_MBSSEP = 0
+GNULIB_MBSSPN = 0
+GNULIB_MBSSTR = 0
+GNULIB_MBSTOK_R = 0
+GNULIB_MEMCHR = 1
+GNULIB_MEMMEM = 0
+GNULIB_MEMPCPY = 0
+GNULIB_MEMRCHR = 0
+GNULIB_MODF = 0
+GNULIB_MODFF = 0
+GNULIB_MODFL = 0
+GNULIB_OBSTACK_PRINTF = 0
+GNULIB_OBSTACK_PRINTF_POSIX = 0
+GNULIB_PCLOSE = 0
+GNULIB_PERROR = 0
+GNULIB_POPEN = 0
+GNULIB_POWF = 0
+GNULIB_PRINTF = 1
+GNULIB_PRINTF_POSIX = 0
+GNULIB_PUTC = 1
+GNULIB_PUTCHAR = 1
+GNULIB_PUTS = 1
+GNULIB_RAWMEMCHR = 0
+GNULIB_REMAINDER = 0
+GNULIB_REMAINDERF = 0
+GNULIB_REMAINDERL = 0
+GNULIB_REMOVE = 0
+GNULIB_RENAME = 0
+GNULIB_RENAMEAT = 0
+GNULIB_RINT = 0
+GNULIB_RINTF = 0
+GNULIB_RINTL = 0
+GNULIB_ROUND = 0
+GNULIB_ROUNDF = 0
+GNULIB_ROUNDL = 0
+GNULIB_SCANF = 1
+GNULIB_SIGNBIT = 1
+GNULIB_SINF = 0
+GNULIB_SINHF = 0
+GNULIB_SINL = 0
+GNULIB_SNPRINTF = 1
+GNULIB_SPRINTF_POSIX = 0
+GNULIB_SQRTF = 0
+GNULIB_SQRTL = 0
+GNULIB_STDIO_H_NONBLOCKING = 0
+GNULIB_STDIO_H_SIGPIPE = 0
+GNULIB_STPCPY = 0
+GNULIB_STPNCPY = 0
+GNULIB_STRCASESTR = 0
+GNULIB_STRCHRNUL = 0
+GNULIB_STRDUP = 0
+GNULIB_STRERROR = 0
+GNULIB_STRERROR_R = 0
+GNULIB_STRNCAT = 0
+GNULIB_STRNDUP = 0
+GNULIB_STRNLEN = 0
+GNULIB_STRPBRK = 0
+GNULIB_STRSEP = 0
+GNULIB_STRSIGNAL = 0
+GNULIB_STRSTR = 0
+GNULIB_STRTOK_R = 0
+GNULIB_STRVERSCMP = 0
+GNULIB_TANF = 0
+GNULIB_TANHF = 0
+GNULIB_TANL = 0
+GNULIB_TMPFILE = 0
+GNULIB_TRUNC = 0
+GNULIB_TRUNCF = 0
+GNULIB_TRUNCL = 0
+GNULIB_VASPRINTF = 0
+GNULIB_VDPRINTF = 0
+GNULIB_VFPRINTF = 1
+GNULIB_VFPRINTF_POSIX = 0
+GNULIB_VFSCANF = 0
+GNULIB_VPRINTF = 1
+GNULIB_VPRINTF_POSIX = 0
+GNULIB_VSCANF = 0
+GNULIB_VSNPRINTF = 0
+GNULIB_VSPRINTF_POSIX = 0
+GNULIB_WCPCPY = 0
+GNULIB_WCPNCPY = 0
+GNULIB_WCRTOMB = 0
+GNULIB_WCSCASECMP = 0
+GNULIB_WCSCAT = 0
+GNULIB_WCSCHR = 0
+GNULIB_WCSCMP = 0
+GNULIB_WCSCOLL = 0
+GNULIB_WCSCPY = 0
+GNULIB_WCSCSPN = 0
+GNULIB_WCSDUP = 0
+GNULIB_WCSLEN = 0
+GNULIB_WCSNCASECMP = 0
+GNULIB_WCSNCAT = 0
+GNULIB_WCSNCMP = 0
+GNULIB_WCSNCPY = 0
+GNULIB_WCSNLEN = 0
+GNULIB_WCSNRTOMBS = 0
+GNULIB_WCSPBRK = 0
+GNULIB_WCSRCHR = 0
+GNULIB_WCSRTOMBS = 0
+GNULIB_WCSSPN = 0
+GNULIB_WCSSTR = 0
+GNULIB_WCSTOK = 0
+GNULIB_WCSWIDTH = 0
+GNULIB_WCSXFRM = 0
+GNULIB_WCTOB = 0
+GNULIB_WCWIDTH = 0
+GNULIB_WMEMCHR = 0
+GNULIB_WMEMCMP = 0
+GNULIB_WMEMCPY = 0
+GNULIB_WMEMMOVE = 0
+GNULIB_WMEMSET = 0
 GREP = /usr/bin/grep
+HAVE_ACOSF = 1
+HAVE_ACOSL = 1
+HAVE_ASINF = 1
+HAVE_ASINL = 1
+HAVE_ATAN2F = 1
+HAVE_ATANF = 1
+HAVE_ATANL = 1
+HAVE_BTOWC = 1
+HAVE_CBRT = 1
+HAVE_CBRTF = 1
+HAVE_CBRTL = 1
+HAVE_COPYSIGN = 1
+HAVE_COPYSIGNL = 1
+HAVE_COSF = 1
+HAVE_COSHF = 1
+HAVE_COSL = 1
+HAVE_DECL_ACOSL = 1
+HAVE_DECL_ASINL = 1
+HAVE_DECL_ATANL = 1
+HAVE_DECL_CBRTF = 1
+HAVE_DECL_CBRTL = 1
+HAVE_DECL_CEILF = 1
+HAVE_DECL_CEILL = 1
+HAVE_DECL_COPYSIGNF = 1
+HAVE_DECL_COSL = 1
+HAVE_DECL_EXP2 = 1
+HAVE_DECL_EXP2F = 1
+HAVE_DECL_EXP2L = 1
+HAVE_DECL_EXPL = 1
+HAVE_DECL_EXPM1L = 1
+HAVE_DECL_FLOORF = 1
+HAVE_DECL_FLOORL = 1
+HAVE_DECL_FPURGE = 1
+HAVE_DECL_FREXPL = 1
+HAVE_DECL_FSEEKO = 1
+HAVE_DECL_FTELLO = 1
+HAVE_DECL_GETDELIM = 1
+HAVE_DECL_GETLINE = 1
+HAVE_DECL_LDEXPL = 1
+HAVE_DECL_LOG10L = 1
+HAVE_DECL_LOG2 = 1
+HAVE_DECL_LOG2F = 1
+HAVE_DECL_LOG2L = 1
+HAVE_DECL_LOGB = 1
+HAVE_DECL_LOGL = 1
+HAVE_DECL_MEMMEM = 1
+HAVE_DECL_MEMRCHR = 1
+HAVE_DECL_OBSTACK_PRINTF = 1
+HAVE_DECL_REMAINDER = 1
+HAVE_DECL_REMAINDERL = 1
+HAVE_DECL_RINTF = 1
+HAVE_DECL_ROUND = 1
+HAVE_DECL_ROUNDF = 1
+HAVE_DECL_ROUNDL = 1
+HAVE_DECL_SINL = 1
+HAVE_DECL_SNPRINTF = 1
+HAVE_DECL_SQRTL = 1
+HAVE_DECL_STRDUP = 1
+HAVE_DECL_STRERROR_R = 1
+HAVE_DECL_STRNDUP = 1
+HAVE_DECL_STRNLEN = 1
+HAVE_DECL_STRSIGNAL = 1
+HAVE_DECL_STRTOK_R = 1
+HAVE_DECL_TANL = 1
+HAVE_DECL_TRUNC = 1
+HAVE_DECL_TRUNCF = 1
+HAVE_DECL_TRUNCL = 1
+HAVE_DECL_VSNPRINTF = 1
+HAVE_DECL_WCTOB = 1
+HAVE_DECL_WCWIDTH = 1
+HAVE_DPRINTF = 1
+HAVE_EXPF = 1
+HAVE_EXPL = 1
+HAVE_EXPM1 = 1
+HAVE_EXPM1F = 1
+HAVE_FABSF = 1
+HAVE_FABSL = 1
+HAVE_FEATURES_H = 0
+HAVE_FFSL = 1
+HAVE_FFSLL = 1
+HAVE_FMA = 1
+HAVE_FMAF = 1
+HAVE_FMAL = 1
+HAVE_FMODF = 1
+HAVE_FMODL = 1
+HAVE_FREXPF = 1
+HAVE_FSEEKO = 1
+HAVE_FTELLO = 1
+HAVE_HYPOTF = 1
+HAVE_HYPOTL = 1
+HAVE_ILOGB = 1
+HAVE_ILOGBF = 1
+HAVE_ILOGBL = 1
+HAVE_INTTYPES_H = 1
+HAVE_ISNAND = 1
+HAVE_ISNANF = 1
+HAVE_ISNANL = 1
+HAVE_LDEXPF = 1
+HAVE_LOG10F = 1
+HAVE_LOG10L = 1
+HAVE_LOG1P = 1
+HAVE_LOG1PF = 1
+HAVE_LOG1PL = 1
+HAVE_LOGBF = 1
+HAVE_LOGBL = 1
+HAVE_LOGF = 1
+HAVE_LOGL = 1
+HAVE_LONG_LONG_INT = 1
+HAVE_MAX_ALIGN_T = 0
+HAVE_MBRLEN = 1
+HAVE_MBRTOWC = 1
+HAVE_MBSINIT = 1
+HAVE_MBSLEN = 0
+HAVE_MBSNRTOWCS = 1
+HAVE_MBSRTOWCS = 1
+HAVE_MEMCHR = 1
+HAVE_MEMPCPY = 1
+HAVE_MODFF = 1
+HAVE_MODFL = 1
+HAVE_PCLOSE = 1
+HAVE_POPEN = 1
+HAVE_POWF = 1
+HAVE_RAWMEMCHR = 1
+HAVE_REMAINDER = 1
+HAVE_REMAINDERF = 1
+HAVE_RENAMEAT = 1
+HAVE_RINT = 1
+HAVE_RINTL = 1
+HAVE_SAME_LONG_DOUBLE_AS_DOUBLE = 0
+HAVE_SIGNED_SIG_ATOMIC_T = 1
+HAVE_SIGNED_WCHAR_T = 1
+HAVE_SIGNED_WINT_T = 1
+HAVE_SINF = 1
+HAVE_SINHF = 1
+HAVE_SINL = 1
+HAVE_SQRTF = 1
+HAVE_SQRTL = 1
+HAVE_STDINT_H = 1
+HAVE_STPCPY = 1
+HAVE_STPNCPY = 1
+HAVE_STRCASESTR = 1
+HAVE_STRCHRNUL = 1
+HAVE_STRPBRK = 1
+HAVE_STRSEP = 1
+HAVE_STRVERSCMP = 1
+HAVE_SYS_BITYPES_H = 0
+HAVE_SYS_INTTYPES_H = 0
+HAVE_SYS_TYPES_H = 1
+HAVE_TANF = 1
+HAVE_TANHF = 1
+HAVE_TANL = 1
+HAVE_UNSIGNED_LONG_LONG_INT = 1
+HAVE_VASPRINTF = 1
+HAVE_VDPRINTF = 1
+HAVE_WCHAR_H = 1
+HAVE_WCHAR_T = 1
+HAVE_WCPCPY = 1
+HAVE_WCPNCPY = 1
+HAVE_WCRTOMB = 1
+HAVE_WCSCASECMP = 1
+HAVE_WCSCAT = 1
+HAVE_WCSCHR = 1
+HAVE_WCSCMP = 1
+HAVE_WCSCOLL = 1
+HAVE_WCSCPY = 1
+HAVE_WCSCSPN = 1
+HAVE_WCSDUP = 1
+HAVE_WCSLEN = 1
+HAVE_WCSNCASECMP = 1
+HAVE_WCSNCAT = 1
+HAVE_WCSNCMP = 1
+HAVE_WCSNCPY = 1
+HAVE_WCSNLEN = 1
+HAVE_WCSNRTOMBS = 1
+HAVE_WCSPBRK = 1
+HAVE_WCSRCHR = 1
+HAVE_WCSRTOMBS = 1
+HAVE_WCSSPN = 1
+HAVE_WCSSTR = 1
+HAVE_WCSTOK = 1
+HAVE_WCSWIDTH = 1
+HAVE_WCSXFRM = 1
+HAVE_WINT_T = 1
+HAVE_WMEMCHR = 1
+HAVE_WMEMCMP = 1
+HAVE_WMEMCPY = 1
+HAVE_WMEMMOVE = 1
+HAVE_WMEMSET = 1
+INCLUDE_NEXT = include_next
+INCLUDE_NEXT_AS_FIRST_DIRECTIVE = include_next
 INSTALL = /opt/local/bin/ginstall -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
@@ -279,11 +782,30 @@ LIBTOOL_DEPS = ./ltmain.sh
 LIPO = lipo
 LN_S = ln -s
 LTLIBOBJS =  ${LIBOBJDIR}mktime$U.lo
-MAKEINFO = ${SHELL} /Users/nietzsche/Downloads/lltdscan/missing makeinfo
+MAINT = #
+MAKEINFO = ${SHELL} /Users/nietzsche/lltdscan/missing makeinfo
 MANIFEST_TOOL = :
 MKDIR_P = /opt/local/bin/gmkdir -p
 NETINC = 
 NETLIB = -lnet
+NEXT_AS_FIRST_DIRECTIVE_ERRNO_H = 
+NEXT_AS_FIRST_DIRECTIVE_FLOAT_H = 
+NEXT_AS_FIRST_DIRECTIVE_MATH_H = <math.h>
+NEXT_AS_FIRST_DIRECTIVE_STDDEF_H = <stddef.h>
+NEXT_AS_FIRST_DIRECTIVE_STDINT_H = <stdint.h>
+NEXT_AS_FIRST_DIRECTIVE_STDIO_H = <stdio.h>
+NEXT_AS_FIRST_DIRECTIVE_STRING_H = <string.h>
+NEXT_AS_FIRST_DIRECTIVE_SYS_TYPES_H = <sys/types.h>
+NEXT_AS_FIRST_DIRECTIVE_WCHAR_H = <wchar.h>
+NEXT_ERRNO_H = 
+NEXT_FLOAT_H = 
+NEXT_MATH_H = <math.h>
+NEXT_STDDEF_H = <stddef.h>
+NEXT_STDINT_H = <stdint.h>
+NEXT_STDIO_H = <stdio.h>
+NEXT_STRING_H = <string.h>
+NEXT_SYS_TYPES_H = <sys/types.h>
+NEXT_WCHAR_H = <wchar.h>
 NM = /opt/local/bin/nm
 NMEDIT = nmedit
 OBJDUMP = false
@@ -300,21 +822,156 @@ PACKAGE_VERSION = 0.1.1
 PATH_SEPARATOR = :
 PCAP_CONFIG = /opt/local/bin/pcap-config
 POW_LIB = 
+PRAGMA_COLUMNS = 
+PRAGMA_SYSTEM_HEADER = #pragma GCC system_header
+PTRDIFF_T_SUFFIX = l
 RANLIB = ranlib
+REPLACE_BTOWC = 0
+REPLACE_CBRTF = 0
+REPLACE_CBRTL = 0
+REPLACE_CEIL = 0
+REPLACE_CEILF = 0
+REPLACE_CEILL = 0
+REPLACE_DPRINTF = 0
+REPLACE_EXP2 = 0
+REPLACE_EXP2L = 0
+REPLACE_EXPM1 = 0
+REPLACE_EXPM1F = 0
+REPLACE_FABSL = 0
+REPLACE_FCLOSE = 0
+REPLACE_FDOPEN = 0
+REPLACE_FFLUSH = 0
+REPLACE_FLOOR = 0
+REPLACE_FLOORF = 0
+REPLACE_FLOORL = 0
+REPLACE_FMA = 0
+REPLACE_FMAF = 0
+REPLACE_FMAL = 0
+REPLACE_FMOD = 0
+REPLACE_FMODF = 0
+REPLACE_FMODL = 0
+REPLACE_FOPEN = 0
+REPLACE_FPRINTF = 0
+REPLACE_FPURGE = 0
+REPLACE_FREOPEN = 0
+REPLACE_FREXP = 0
+REPLACE_FREXPF = 0
+REPLACE_FREXPL = 0
+REPLACE_FSEEK = 0
+REPLACE_FSEEKO = 0
+REPLACE_FTELL = 0
+REPLACE_FTELLO = 0
+REPLACE_GETDELIM = 0
+REPLACE_GETLINE = 0
+REPLACE_HUGE_VAL = 0
+REPLACE_HYPOT = 0
+REPLACE_HYPOTF = 0
+REPLACE_HYPOTL = 0
+REPLACE_ILOGB = 0
+REPLACE_ILOGBF = 0
+REPLACE_ISFINITE = 0
+REPLACE_ISINF = 0
+REPLACE_ISNAN = 0
+REPLACE_ITOLD = 0
+REPLACE_LDEXPL = 0
+REPLACE_LOG = 0
+REPLACE_LOG10 = 0
+REPLACE_LOG10F = 0
+REPLACE_LOG10L = 0
+REPLACE_LOG1P = 0
+REPLACE_LOG1PF = 0
+REPLACE_LOG1PL = 0
+REPLACE_LOG2 = 0
+REPLACE_LOG2F = 0
+REPLACE_LOG2L = 0
+REPLACE_LOGB = 0
+REPLACE_LOGBF = 0
+REPLACE_LOGBL = 0
+REPLACE_LOGF = 0
+REPLACE_LOGL = 0
+REPLACE_MBRLEN = 0
+REPLACE_MBRTOWC = 0
+REPLACE_MBSINIT = 0
+REPLACE_MBSNRTOWCS = 0
+REPLACE_MBSRTOWCS = 0
+REPLACE_MBSTATE_T = 0
+REPLACE_MEMCHR = 0
+REPLACE_MEMMEM = 0
+REPLACE_MODF = 0
+REPLACE_MODFF = 0
+REPLACE_MODFL = 0
+REPLACE_NAN = 0
+REPLACE_NULL = 0
+REPLACE_OBSTACK_PRINTF = 0
+REPLACE_PERROR = 0
+REPLACE_POPEN = 0
+REPLACE_PRINTF = 0
+REPLACE_REMAINDER = 0
+REPLACE_REMAINDERF = 0
+REPLACE_REMAINDERL = 0
+REPLACE_REMOVE = 0
+REPLACE_RENAME = 0
+REPLACE_RENAMEAT = 0
+REPLACE_ROUND = 0
+REPLACE_ROUNDF = 0
+REPLACE_ROUNDL = 0
+REPLACE_SIGNBIT = 0
+REPLACE_SIGNBIT_USING_GCC = 1
+REPLACE_SNPRINTF = 1
+REPLACE_SPRINTF = 0
+REPLACE_SQRTL = 0
+REPLACE_STDIO_READ_FUNCS = 0
+REPLACE_STDIO_WRITE_FUNCS = 0
+REPLACE_STPNCPY = 0
+REPLACE_STRCASESTR = 0
+REPLACE_STRCHRNUL = 0
+REPLACE_STRDUP = 0
+REPLACE_STRERROR = 0
+REPLACE_STRERROR_R = 0
+REPLACE_STRNCAT = 0
+REPLACE_STRNDUP = 0
+REPLACE_STRNLEN = 0
+REPLACE_STRSIGNAL = 0
+REPLACE_STRSTR = 0
+REPLACE_STRTOK_R = 0
+REPLACE_TMPFILE = 0
+REPLACE_TRUNC = 0
+REPLACE_TRUNCF = 0
+REPLACE_TRUNCL = 0
+REPLACE_VASPRINTF = 0
+REPLACE_VDPRINTF = 0
+REPLACE_VFPRINTF = 0
+REPLACE_VPRINTF = 0
+REPLACE_VSNPRINTF = 0
+REPLACE_VSPRINTF = 0
+REPLACE_WCRTOMB = 0
+REPLACE_WCSNRTOMBS = 0
+REPLACE_WCSRTOMBS = 0
+REPLACE_WCSWIDTH = 0
+REPLACE_WCTOB = 0
+REPLACE_WCWIDTH = 0
 SED = /usr/bin/sed
 SET_MAKE = 
 SHELL = /bin/sh
 SHLICC2 = 
+SIG_ATOMIC_T_SUFFIX = 
+SIZE_T_SUFFIX = ul
+STDDEF_H = stddef.h
+STDINT_H = stdint.h
 STRIP = strip
+UNDEFINE_STRTOK_R = 0
 VERSION = 0.1.1
 V_CCOPT =  -ffloat-store
 V_DEFS = 
 V_INCLS = -I/opt/local/include 
 V_PCAPDEP = 
-abs_builddir = /Users/nietzsche/Downloads/lltdscan
-abs_srcdir = /Users/nietzsche/Downloads/lltdscan
-abs_top_builddir = /Users/nietzsche/Downloads/lltdscan
-abs_top_srcdir = /Users/nietzsche/Downloads/lltdscan
+WCHAR_T_SUFFIX = 
+WINDOWS_64_BIT_OFF_T = 0
+WINT_T_SUFFIX = 
+abs_builddir = /Users/nietzsche/lltdscan
+abs_srcdir = /Users/nietzsche/lltdscan
+abs_top_builddir = /Users/nietzsche/lltdscan
+abs_top_srcdir = /Users/nietzsche/lltdscan
 ac_ct_AR = ar
 ac_ct_CC = gcc
 ac_ct_CXX = g++
@@ -336,6 +993,11 @@ datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
+gl_LIBOBJS =  asnprintf.o isnanf.o isnanl.o printf-args.o printf-parse.o snprintf.o vasnprintf.o
+gl_LTLIBOBJS =  asnprintf.lo isnanf.lo isnanl.lo printf-args.lo printf-parse.lo snprintf.lo vasnprintf.lo
+gltests_LIBOBJS = 
+gltests_LTLIBOBJS = 
+gltests_WITNESS = IN_LLTDSCANNER_GNULIB_TESTS
 host = x86_64-apple-darwin13.4.0
 host_alias = 
 host_cpu = x86_64
@@ -344,7 +1006,7 @@ host_vendor = apple
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /Users/nietzsche/Downloads/lltdscan/install-sh
+install_sh = ${SHELL} /Users/nietzsche/lltdscan/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -368,7 +1030,7 @@ target_vendor = apple
 top_build_prefix = 
 top_builddir = .
 top_srcdir = .
-AUTOMAKE_OPTIONS = gnu std-options
+AUTOMAKE_OPTIONS = gnu 1.11 check-news dist-bzip2 std-options subdir-objects
 ACLOCAL_AMFLAGS = -I m4
 AM_CFLAGS = $(INCLS) $(CFLAGS) $(V_CCOPT) $(V_INCLS) $(NETINC)
 AM_LDFLAGS = $(LDFLAGS) 
@@ -378,15 +1040,26 @@ AM_LDFLAGS = $(LDFLAGS)
 bin_PROGRAMS = lltdscan$(EXEEXT)
 lltdscan_SOURCES = lltdscan.c
 lltdscan_DEPENDENCIES = $(V_PCAPDEP)
+LIBLTDLDIR = $(LTDLOPEN)
+SUBDIRS = ${LIBLTDLDIR} lib
 man_MANS = lltdscan.8
+EXTRA_DIST = autogen.sh m4/gnulib-cache.m4
+
+#don't install headers  
+noinst_HEADERS = 
+#don't install autogen.sh
+noinst_SCRIPT = autogen.sh
+#don't install unnecessary libs.
+noinst_LTLIBRARIES = 
+MAINTAINERCLEANFILES = Makefile.in lib/Makefile.in
 all: config.h
-	$(MAKE) $(AM_MAKEFLAGS) all-am
+	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
 .SUFFIXES: .c .lo .o .obj
 am--refresh: Makefile
 	@:
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
+$(srcdir)/Makefile.in: # $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -412,9 +1085,9 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
 
-$(top_srcdir)/configure:  $(am__configure_deps)
+$(top_srcdir)/configure: # $(am__configure_deps)
 	$(am__cd) $(srcdir) && $(AUTOCONF)
-$(ACLOCAL_M4):  $(am__aclocal_m4_deps)
+$(ACLOCAL_M4): # $(am__aclocal_m4_deps)
 	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 $(am__aclocal_m4_deps):
 
@@ -425,13 +1098,24 @@ config.h: stamp-h1
 stamp-h1: $(srcdir)/config.h.in $(top_builddir)/config.status
 	@rm -f stamp-h1
 	cd $(top_builddir) && $(SHELL) ./config.status config.h
-$(srcdir)/config.h.in:  $(am__configure_deps) 
+$(srcdir)/config.h.in: # $(am__configure_deps) 
 	($(am__cd) $(top_srcdir) && $(AUTOHEADER))
 	rm -f stamp-h1
 	touch $@
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
+
+clean-noinstLTLIBRARIES:
+	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
+	@list='$(noinst_LTLIBRARIES)'; \
+	locs=`for p in $$list; do echo $$p; done | \
+	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
+	      sort -u`; \
+	test -z "$$locs" || { \
+	  echo rm -f $${locs}; \
+	  rm -f $${locs}; \
+	}
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
@@ -511,22 +1195,25 @@ distclean-compile:
 include ./$(DEPDIR)/lltdscan.Po
 
 .c.o:
-	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+	$(COMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+	$(am__mv) $$depbase.Tpo $$depbase.Po
 #	$(AM_V_CC)source='$<' object='$@' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(AM_V_CC_no)$(COMPILE) -c -o $@ $<
 
 .c.obj:
-	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+	$(COMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+	$(am__mv) $$depbase.Tpo $$depbase.Po
 #	$(AM_V_CC)source='$<' object='$@' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(AM_V_CC_no)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
 .c.lo:
-	$(AM_V_CC)$(LTCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.lo$$||'`;\
+	$(LTCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+	$(am__mv) $$depbase.Tpo $$depbase.Plo
 #	$(AM_V_CC)source='$<' object='$@' libtool=yes \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(AM_V_CC_no)$(LTCOMPILE) -c -o $@ $<
@@ -583,14 +1270,61 @@ uninstall-man8:
 	      -e 's,\.[0-9a-z]*$$,,;$(transform);G;s,\n,.,'`; \
 	dir='$(DESTDIR)$(man8dir)'; $(am__uninstall_files_from_dir)
 
+# This directory's subdirectories are mostly independent; you can cd
+# into them and run 'make' without going through this Makefile.
+# To change the values of 'make' variables: instead of editing Makefiles,
+# (1) if the variable is set in 'config.status', edit 'config.status'
+#     (which will cause the Makefiles to be regenerated when you run 'make');
+# (2) otherwise, pass the desired values on the 'make' command line.
+$(am__recursive_targets):
+	@fail=; \
+	if $(am__make_keepgoing); then \
+	  failcom='fail=yes'; \
+	else \
+	  failcom='exit 1'; \
+	fi; \
+	dot_seen=no; \
+	target=`echo $@ | sed s/-recursive//`; \
+	case "$@" in \
+	  distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
+	  *) list='$(SUBDIRS)' ;; \
+	esac; \
+	for subdir in $$list; do \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    dot_seen=yes; \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  ($(am__cd) $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	  || eval $$failcom; \
+	done; \
+	if test "$$dot_seen" = "no"; then \
+	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
+	fi; test -z "$$fail"
+
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
-tags: tags-am
+tags: tags-recursive
 TAGS: tags
 
 tags-am: $(TAGS_DEPENDENCIES) $(am__tagged_files)
 	set x; \
 	here=`pwd`; \
+	if ($(ETAGS) --etags-include --version) >/dev/null 2>&1; then \
+	  include_option=--etags-include; \
+	  empty_fix=.; \
+	else \
+	  include_option=--include; \
+	  empty_fix=; \
+	fi; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  if test "$$subdir" = .; then :; else \
+	    test ! -f $$subdir/TAGS || \
+	      set "$$@" "$$include_option=$$here/$$subdir/TAGS"; \
+	  fi; \
+	done; \
 	$(am__define_uniq_tagged_files); \
 	shift; \
 	if test -z "$(ETAGS_ARGS)$$*$$unique"; then :; else \
@@ -603,7 +1337,7 @@ tags-am: $(TAGS_DEPENDENCIES) $(am__tagged_files)
 	      $$unique; \
 	  fi; \
 	fi
-ctags: ctags-am
+ctags: ctags-recursive
 
 CTAGS: ctags
 ctags-am: $(TAGS_DEPENDENCIES) $(am__tagged_files)
@@ -622,7 +1356,7 @@ cscope: cscope.files
 clean-cscope:
 	-rm -f cscope.files
 cscope.files: clean-cscope cscopelist
-cscopelist: cscopelist-am
+cscopelist: cscopelist-recursive
 
 cscopelist-am: $(am__tagged_files)
 	list='$(am__tagged_files)'; \
@@ -643,6 +1377,12 @@ distclean-tags:
 	-rm -f cscope.out cscope.in.out cscope.po.out cscope.files
 
 distdir: $(DISTFILES)
+	@case `sed 15q $(srcdir)/NEWS` in \
+	*"$(VERSION)"*) : ;; \
+	*) \
+	  echo "NEWS not updated; not releasing" 1>&2; \
+	  exit 1;; \
+	esac
 	$(am__remove_distdir)
 	test -d "$(distdir)" || mkdir "$(distdir)"
 	@srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*]/\\\\&/g'`; \
@@ -674,6 +1414,31 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
+	@list='$(DIST_SUBDIRS)'; for subdir in $$list; do \
+	  if test "$$subdir" = .; then :; else \
+	    $(am__make_dryrun) \
+	      || test -d "$(distdir)/$$subdir" \
+	      || $(MKDIR_P) "$(distdir)/$$subdir" \
+	      || exit 1; \
+	    dir1=$$subdir; dir2="$(distdir)/$$subdir"; \
+	    $(am__relativize); \
+	    new_distdir=$$reldir; \
+	    dir1=$$subdir; dir2="$(top_distdir)"; \
+	    $(am__relativize); \
+	    new_top_distdir=$$reldir; \
+	    echo " (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) top_distdir="$$new_top_distdir" distdir="$$new_distdir" \\"; \
+	    echo "     am__remove_distdir=: am__skip_length_check=: am__skip_mode_fix=: distdir)"; \
+	    ($(am__cd) $$subdir && \
+	      $(MAKE) $(AM_MAKEFLAGS) \
+	        top_distdir="$$new_top_distdir" \
+	        distdir="$$new_distdir" \
+		am__remove_distdir=: \
+		am__skip_length_check=: \
+		am__skip_mode_fix=: \
+	        distdir) \
+	      || exit 1; \
+	  fi; \
+	done
 	-test -n "$(am__skip_mode_fix)" \
 	|| find "$(distdir)" -type d ! -perm -755 \
 		-exec chmod u+rwx,go+rx {} \; -o \
@@ -684,7 +1449,6 @@ distdir: $(DISTFILES)
 dist-gzip: distdir
 	tardir=$(distdir) && $(am__tar) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
 	$(am__post_remove_distdir)
-
 dist-bzip2: distdir
 	tardir=$(distdir) && $(am__tar) | BZIP2=$${BZIP2--9} bzip2 -c >$(distdir).tar.bz2
 	$(am__post_remove_distdir)
@@ -806,21 +1570,23 @@ distcleancheck: distclean
 	       $(distcleancheck_listfiles) ; \
 	       exit 1; } >&2
 check-am: all-am
-check: check-am
-all-am: Makefile $(PROGRAMS) $(MANS) config.h
-installdirs:
+check: check-recursive
+all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(MANS) $(HEADERS) \
+		config.h
+installdirs: installdirs-recursive
+installdirs-am:
 	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man8dir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
-install: install-am
-install-exec: install-exec-am
-install-data: install-data-am
-uninstall: uninstall-am
+install: install-recursive
+install-exec: install-exec-recursive
+install-data: install-data-recursive
+uninstall: uninstall-recursive
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 
-installcheck: installcheck-am
+installcheck: installcheck-recursive
 install-strip:
 	if test -z '$(STRIP)'; then \
 	  $(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
@@ -842,74 +1608,76 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-clean: clean-am
+	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
+clean: clean-recursive
 
-clean-am: clean-binPROGRAMS clean-generic clean-libtool mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-libtool \
+	clean-noinstLTLIBRARIES mostlyclean-am
 
-distclean: distclean-am
+distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-tags
 
-dvi: dvi-am
+dvi: dvi-recursive
 
 dvi-am:
 
-html: html-am
+html: html-recursive
 
 html-am:
 
-info: info-am
+info: info-recursive
 
 info-am:
 
 install-data-am: install-man
 
-install-dvi: install-dvi-am
+install-dvi: install-dvi-recursive
 
 install-dvi-am:
 
 install-exec-am: install-binPROGRAMS
 
-install-html: install-html-am
+install-html: install-html-recursive
 
 install-html-am:
 
-install-info: install-info-am
+install-info: install-info-recursive
 
 install-info-am:
 
 install-man: install-man8
 
-install-pdf: install-pdf-am
+install-pdf: install-pdf-recursive
 
 install-pdf-am:
 
-install-ps: install-ps-am
+install-ps: install-ps-recursive
 
 install-ps-am:
 
 installcheck-am: installcheck-binPROGRAMS
 
-maintainer-clean: maintainer-clean-am
+maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
 	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
-mostlyclean: mostlyclean-am
+mostlyclean: mostlyclean-recursive
 
 mostlyclean-am: mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool
 
-pdf: pdf-am
+pdf: pdf-recursive
 
 pdf-am:
 
-ps: ps-am
+ps: ps-recursive
 
 ps-am:
 
@@ -917,26 +1685,28 @@ uninstall-am: uninstall-binPROGRAMS uninstall-man
 
 uninstall-man: uninstall-man8
 
-.MAKE: all install-am install-strip
+.MAKE: $(am__recursive_targets) all install-am install-strip
 
-.PHONY: CTAGS GTAGS TAGS all all-am am--refresh check check-am clean \
-	clean-binPROGRAMS clean-cscope clean-generic clean-libtool \
-	cscope cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
-	dist-gzip dist-lzip dist-shar dist-tarZ dist-xz dist-zip \
-	distcheck distclean distclean-compile distclean-generic \
-	distclean-hdr distclean-libtool distclean-tags distcleancheck \
-	distdir distuninstallcheck dvi dvi-am html html-am info \
-	info-am install install-am install-binPROGRAMS install-data \
+.PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
+	am--refresh check check-am clean clean-binPROGRAMS \
+	clean-cscope clean-generic clean-libtool \
+	clean-noinstLTLIBRARIES cscope cscopelist-am ctags ctags-am \
+	dist dist-all dist-bzip2 dist-gzip dist-lzip dist-shar \
+	dist-tarZ dist-xz dist-zip distcheck distclean \
+	distclean-compile distclean-generic distclean-hdr \
+	distclean-libtool distclean-tags distcleancheck distdir \
+	distuninstallcheck dvi dvi-am html html-am info info-am \
+	install install-am install-binPROGRAMS install-data \
 	install-data-am install-dvi install-dvi-am install-exec \
 	install-exec-am install-html install-html-am install-info \
 	install-info-am install-man install-man8 install-pdf \
 	install-pdf-am install-ps install-ps-am install-strip \
 	installcheck installcheck-am installcheck-binPROGRAMS \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-am uninstall \
-	uninstall-am uninstall-binPROGRAMS uninstall-man \
-	uninstall-man8
+	installdirs installdirs-am maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS \
+	uninstall-man uninstall-man8
 
 .PRECIOUS: Makefile
 

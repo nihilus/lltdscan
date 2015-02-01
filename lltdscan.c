@@ -66,9 +66,7 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
 	}
 	hosts[nhosts++] = host_id;
 
-	sprintf(mac, "%02x:%02x:%02x:%02x:%02x:%02x",
-		packet[6], packet[7], packet[8], packet[9], packet[10], packet[11]
-	);
+	snprintf(mac, "%02x:%02x:%02x:%02x:%02x:%02x", packet[6], packet[7], packet[8], packet[9], packet[10], packet[11]);
 
 	if( mac_to_find ){
 		if( 0 == strcasecmp(mac, mac_to_find) ){

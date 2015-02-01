@@ -17,7 +17,6 @@ AC_CANONICAL_TARGET
 
 dnl macros for automake
 AM_MAINTAINER_MODE
-AC_PROG_MAKE_SET
 AC_CONFIG_MACRO_DIR([m4])
 
 
@@ -40,9 +39,24 @@ AM_INIT_AUTOMAKE([foreign std-options])
 AC_CONFIG_MACRO_DIR([m4])
 
 dnl shared/static
-LT_PREREQ([2.2])
-LT_INIT([disable-shared])
+dnl linking & ltdl
+LT_PREREQ([2.4])
+LT_CONFIG_LTDL_DIR([libltdl])
+LT_INIT([dlopen win32-dll shared pic-only])
 AC_SUBST(LIBTOOL_DEPS)
+LTDL_INIT([convenience recursive])
+
+DLOPEN="-dlopen"
+DLPREOPEN="-dlpreopen"
+AC_SUBST(DLOPEN)
+AC_SUBST(DLPREOPEN)
+
+dnl Substitute INCLTDL and LIBLTDL in the Makefiles
+AC_SUBST(INCLTDL)
+AC_SUBST(LIBLTDL)
+
+AM_CONDITIONAL(CONVENIENCE_LTDL, test x"${enable_ltdl_convenience-no}" != xno)
+AM_CONDITIONAL(INSTALL_LTDL, test x"${enable_ltdl_install-no}" != xno)
 
 dnl Set it in C99-mode
 AC_SYS_INTERPRETER
@@ -58,15 +72,8 @@ AC_REQUIRE_CPP
 AC_PROG_CC_C_O
 AC_EXEEXT
 
-AC_HEADER_STDC
-AC_HEADER_TIME
-AC_CHECK_HEADERS([stdlib.h sys/time.h])
-dnl Check for libmath
-AC_CHECK_LIB([m],[cos])
-
 dnl Check for libpcap
 AC_LBL_LIBPCAP(V_PCAPDEP, V_INCLS)
-
 
 dnl Checks for (installed) libdnet
 AC_MSG_CHECKING(for libdnet)
@@ -104,17 +111,100 @@ AC_SUBST(NETINC)
 AC_SUBST(NETLIB)
 LIBS="$LIBS $NETLIB"
 
+_SEARCH_LIBS([strerror], [cposix])
+AC_CHECK_LIB([socket], [socket])
+AC_CHECK_LIB([rt], [aio_read])
+AC_CHECK_LIB([rt], [signal])
+AC_CHECK_LIB([nsl], [gethostbyname])
+AC_CHECK_LIB([m], [pow])
+
+dnl Standard socklen_t test
+AC_MSG_CHECKING([for socklen_t])
+AC_CACHE_VAL(ac_cv_type_socklen_t,
+	[AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+		#include <sys/types.h>
+		#include <sys/socket.h>]], [[socklen_t t;]])],[ac_cv_type_socklen_t=yes],[ac_cv_type_socklen_t=no])])
+if test $ac_cv_type_socklen_t = no; then
+	AC_DEFINE(socklen_t, int, Define to 'int' if <sys/socket.h> doesn't define.) dnl BSD-style
+fi
+AC_MSG_RESULT($ac_cv_type_socklen_t)
+
+AC_CHECK_DECLS([sys_siglist],[],[],[#include <signal.h>
+/* NetBSD declares sys_siglist in unistd.h.  */
+#ifdef HAVE_UNISTD_H
+# include <unistd.h>
+#endif
+])
+
+dnl Define macros for getting sa_len for struct sockaddr in a compatible way.
+AC_CHECK_MEMBER(struct sockaddr.sa_len,
+[AC_DEFINE([GET_SA_LEN(X)],[(((struct sockaddr*)&(X))->sa_len)],[Length of specified struct sockaddr.])],
+[AC_DEFINE([GET_SA_LEN(X)],[(((struct sockaddr*)&(X))->sa_family == AF_INET  ? sizeof(struct sockaddr_in) : ((struct sockaddr*)&(X))->sa_family == AF_INET6 ? sizeof(struct sockaddr_in6) : sizeof(struct sockaddr))],[Length of specified struct sockaddr.])],
+[#include <sys/socket.h>])
+
+dnl Check it is safe to include both <sys/time.h> and <time.h>.
+AC_HEADER_TIME
+
+AC_CHECK_HEADERS([sys/types.h sys/stat.h sys/socket.h netinet/in.h unistd.h signal.h stddef.h pthread.h netdb.h arpa/inet.h libintl.h malloc.h \
+				OS.h fcntl.h float.h langinfo.h limits.h locale.h net/ethernet.h sys/file.h sys/ioctl.h sys/param.h sys/time.h wchar.h])
+AC_HEADER_SYS_WAIT
+AC_HEADER_STDBOOL
+AC_HEADER_ASSERT
+
+dnl For BSD and Solaris
+AC_CHECK_HEADERS([net/if_dl.h net/dlil.h])
+
+dnl Check for netinet/if_ether, courtsey of GNU Autoconf.
+AC_CHECK_HEADERS([sys/socket.h])
+AC_CHECK_HEADERS([netinet/if_ether.h], [], [],
+	[#include <stdio.h>
+   	 #ifdef STDC_HEADERS
+     # include <stdlib.h>
+     # include <stddef.h>
+     #else
+     # ifdef HAVE_STDLIB_H
+     #  include <stdlib.h>
+     # endif
+     #endif
+     #ifdef HAVE_SYS_SOCKET_H
+     # include <sys/socket.h>
+     #endif
+])
+
+dnl Check for LLADDR
+AC_CHECK_TYPES([struct sockaddr_dl], [], [], [[#include <net/if_dl.h>]])
+AC_CHECK_TYPES([struct sockaddr_dl], [], [], [[#include <net/dlil.h>]])
+
+dnl Check for functions.
+AC_CHECK_FUNCS([setlocale]) 
+AC_CHECK_FUNCS([gettimeofday])
+AC_CHECK_FUNCS([memset])
+AC_CHECK_FUNCS([memmove])
+AC_CHECK_FUNCS([strtoul])
+AC_CHECK_FUNCS([strchr])
+AC_CHECK_FUNCS([strrchr])
+AC_CHECK_FUNCS([strstr])
+AC_CHECK_FUNCS([socket])
+AC_CHECK_FUNCS([signal])
+AC_CHECK_FUNCS([daemon])
+AC_CHECK_FUNCS([getifaddrs freeifaddrs])
+AC_CHECK_FUNCS([strcasecmp])
+AC_CHECK_FUNCS([getopt getopt_long])
+AC_CHECK_FUNC([_Exit], [], AC_DEFINE(_Exit, _exit, Define _Exit as _exit IFF not found.))
+AC_CHECK_FUNCS([strdup strndup memchr strnlen localeconv inet_addr inet_ntoa dup2 atexit mblen mbrlen memchr strerror])
+
+AC_FUNC_MMAP
+AC_FUNC_MALLOC
+AC_FUNC_REALLOC
+AC_FUNC_STRTOD
+AC_FUNC_STRTOLD
+AC_FUNC_FORK
+
 dnl check if types are defined.
 AC_TYPE_SIZE_T
 AC_TYPE_OFF_T
 AC_TYPE_UID_T
 AC_FUNC_FSEEKO
-
-AC_FUNC_STRTOD
-AC_FUNC_STRTOLD
-AC_STRUCT_TM 
-AC_FUNC_MKTIME
-AC_CHECK_FUNCS([floor])
 
 dnl C checks
 AC_C_CONST
@@ -127,11 +217,39 @@ AC_C_STRINGIZE
 AC_C_BIGENDIAN
 AC_FUNC_SELECT_ARGTYPES
 
+dnl Check for a C object stack.
+AC_FUNC_OBSTACK
+
+dnl GNU-charactaristics
+AC_CHECK_FUNCS([__builtin_unreachable])
+AC_SYS_POSIX_TERMIOS
+AC_SYS_LARGEFILE
+AC_SYS_LONG_FILE_NAMES
+AC_FUNC_STRERROR_R
+AC_TYPE_UINTPTR_T
+AC_TYPE_INT16_T
+AC_TYPE_INT32_T
+AC_TYPE_INT8_T
+AC_TYPE_SSIZE_T
+AC_TYPE_UINT8_T
+AC_TYPE_UINT16_T
+AC_TYPE_UINT32_T
+AC_TYPE_UINT64_T
+
+
+AC_FUNC_MBRTOWC
+AC_CHECK_TYPES([ptrdiff_t])
+AC_CHECK_MEMBERS([struct stat.st_rdev])
+
+dnl AC_IRIX_SUN
+AC_FUNC_GETMNTENT
+AC_CHECK_LIB([sun], [getpwnam])
+
 dnl subst
 AC_SUBST(V_CCOPT)
 AC_SUBST(V_DEFS)
 AC_SUBST(V_INCLS)
 AC_SUBST(V_PCAPDEP)
 
-AC_CONFIG_FILES([lib/Makefile Makefile])
+AC_CONFIG_FILES([Makefile libltdl/Makefile lib/Makefile])
 AC_OUTPUT
