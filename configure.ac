@@ -7,11 +7,20 @@ dnl Process this file with autoconf to produce a configure script.
 dnl init autoconf
 AC_REQ(2.63)
 AC_INIT([lltdscanner],[0.1.1],[Markus Gothe nietzsche@lysator.liu.se])
-AC_CONFIG_SRCDIR([config.h.in])
-AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_HEADERS([config.h:config.h.in])
+AC_CONFIG_SRCDIR([lltdscan.c])
+AC_CONFIG_AUX_DIR([.]) 
+AC_REQUIRE_AUX_FILE([install-sh])
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
+
+dnl macros for automake
+AM_INIT_AUTOMAKE([gnu 1.11 check-news dist-bzip2 std-options subdir-objects])
+AM_MAINTAINER_MODE
+AC_PROG_MAKE_SET
+AC_CONFIG_MACRO_DIR([m4])
+
 
 dnl PCAP-setup
 AC_LBL_C_INIT_BEFORE_CC(V_INCLS)
@@ -26,7 +35,6 @@ AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
-AC_PROG_RANLIB
 
 dnl macros for automake
 AM_INIT_AUTOMAKE([foreign std-options])
@@ -40,6 +48,10 @@ AC_SUBST(LIBTOOL_DEPS)
 dnl Set it in C99-mode
 AC_SYS_INTERPRETER
 AC_USE_SYSTEM_EXTENSIONS
+
+dnl gnulib
+gl_EARLY
+gl_INIT
 
 AC_PROG_CC_C99
 AC_PROG_CPP
@@ -122,5 +134,5 @@ AC_SUBST(V_DEFS)
 AC_SUBST(V_INCLS)
 AC_SUBST(V_PCAPDEP)
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([lib/Makefile Makefile])
 AC_OUTPUT

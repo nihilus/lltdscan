@@ -645,6 +645,42 @@ fi
 rmdir .tst 2>/dev/null
 AC_SUBST([am__leading_dot])])
 
+# Add --enable-maintainer-mode option to configure.         -*- Autoconf -*-
+# From Jim Meyering
+
+# Copyright (C) 1996-2014 Free Software Foundation, Inc.
+#
+# This file is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# AM_MAINTAINER_MODE([DEFAULT-MODE])
+# ----------------------------------
+# Control maintainer-specific portions of Makefiles.
+# Default is to disable them, unless 'enable' is passed literally.
+# For symmetry, 'disable' may be passed as well.  Anyway, the user
+# can override the default with the --enable/--disable switch.
+AC_DEFUN([AM_MAINTAINER_MODE],
+[m4_case(m4_default([$1], [disable]),
+       [enable], [m4_define([am_maintainer_other], [disable])],
+       [disable], [m4_define([am_maintainer_other], [enable])],
+       [m4_define([am_maintainer_other], [enable])
+        m4_warn([syntax], [unexpected argument to AM@&t@_MAINTAINER_MODE: $1])])
+AC_MSG_CHECKING([whether to enable maintainer-specific portions of Makefiles])
+  dnl maintainer-mode's default is 'disable' unless 'enable' is passed
+  AC_ARG_ENABLE([maintainer-mode],
+    [AS_HELP_STRING([--]am_maintainer_other[-maintainer-mode],
+      am_maintainer_other[ make rules and dependencies not useful
+      (and sometimes confusing) to the casual installer])],
+    [USE_MAINTAINER_MODE=$enableval],
+    [USE_MAINTAINER_MODE=]m4_if(am_maintainer_other, [enable], [no], [yes]))
+  AC_MSG_RESULT([$USE_MAINTAINER_MODE])
+  AM_CONDITIONAL([MAINTAINER_MODE], [test $USE_MAINTAINER_MODE = yes])
+  MAINT=$MAINTAINER_MODE_TRUE
+  AC_SUBST([MAINT])dnl
+]
+)
+
 # Check to see how 'make' treats includes.	            -*- Autoconf -*-
 
 # Copyright (C) 2001-2014 Free Software Foundation, Inc.
@@ -1150,9 +1186,59 @@ AC_SUBST([am__tar])
 AC_SUBST([am__untar])
 ]) # _AM_PROG_TAR
 
+m4_include([m4/00gnulib.m4])
+m4_include([m4/absolute-header.m4])
+m4_include([m4/alloca.m4])
+m4_include([m4/errno_h.m4])
+m4_include([m4/exponentd.m4])
+m4_include([m4/exponentf.m4])
+m4_include([m4/exponentl.m4])
+m4_include([m4/extensions.m4])
+m4_include([m4/extern-inline.m4])
+m4_include([m4/float_h.m4])
+m4_include([m4/fpieee.m4])
+m4_include([m4/frexp.m4])
+m4_include([m4/frexpl.m4])
+m4_include([m4/gnulib-common.m4])
+m4_include([m4/gnulib-comp.m4])
+m4_include([m4/include_next.m4])
+m4_include([m4/intmax_t.m4])
+m4_include([m4/inttypes_h.m4])
+m4_include([m4/isnand.m4])
+m4_include([m4/isnanf.m4])
+m4_include([m4/isnanl.m4])
+m4_include([m4/ldexpl.m4])
 m4_include([m4/libpcap.m4])
 m4_include([m4/libtool.m4])
+m4_include([m4/longlong.m4])
 m4_include([m4/ltoptions.m4])
 m4_include([m4/ltsugar.m4])
 m4_include([m4/ltversion.m4])
 m4_include([m4/lt~obsolete.m4])
+m4_include([m4/math_h.m4])
+m4_include([m4/memchr.m4])
+m4_include([m4/mmap-anon.m4])
+m4_include([m4/multiarch.m4])
+m4_include([m4/nocrash.m4])
+m4_include([m4/off_t.m4])
+m4_include([m4/onceonly.m4])
+m4_include([m4/printf-frexp.m4])
+m4_include([m4/printf-frexpl.m4])
+m4_include([m4/printf.m4])
+m4_include([m4/signbit.m4])
+m4_include([m4/size_max.m4])
+m4_include([m4/snprintf-posix.m4])
+m4_include([m4/snprintf.m4])
+m4_include([m4/ssize_t.m4])
+m4_include([m4/stddef_h.m4])
+m4_include([m4/stdint.m4])
+m4_include([m4/stdint_h.m4])
+m4_include([m4/stdio_h.m4])
+m4_include([m4/string_h.m4])
+m4_include([m4/sys_types_h.m4])
+m4_include([m4/vasnprintf.m4])
+m4_include([m4/warn-on-use.m4])
+m4_include([m4/wchar_h.m4])
+m4_include([m4/wchar_t.m4])
+m4_include([m4/wint_t.m4])
+m4_include([m4/xsize.m4])
