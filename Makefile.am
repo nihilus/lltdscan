@@ -1,6 +1,5 @@
 #/*
-#   Copyright (C) 2015, Markus Gothe <nietzsche@lysator.liu.se>
-
+#    Copyright (C) 2015, Markus Gothe <nietzsche@lysator.liu.se>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as
@@ -18,7 +17,8 @@
 
 ## Process this file with automake to produce Makefile.in
 
-AUTOMAKE_OPTIONS = gnu 1.11 check-news dist-bzip2 std-options subdir-objects
+AUTOMAKE_OPTIONS = gnu 1.15 check-news dist-bzip2 std-options subdir-objects
+
 ACLOCAL_AMFLAGS = -I m4
 AM_CFLAGS = -I lib $(INCLS) $(CFLAGS) $(V_CCOPT) $(V_INCLS) $(NETINC) $(LTDLINCL)
 AM_CPPFLAGS = -I lib $(INCLS) $(CFLAGS) $(V_CCOPT) $(V_INCLS) $(NETINC) $(LTDLINCL)

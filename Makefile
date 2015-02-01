@@ -14,9 +14,22 @@
 
 
 
+#/*
+#    Copyright (C) 2015, Markus Gothe <nietzsche@lysator.liu.se>
 #
-#   Author Markus Gothe <nietzsche@lysator.liu.se>
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
 #
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+#*/
 
 
 
@@ -95,6 +108,7 @@ POST_UNINSTALL = :
 build_triplet = x86_64-apple-darwin13.4.0
 host_triplet = x86_64-apple-darwin13.4.0
 target_triplet = x86_64-apple-darwin13.4.0
+sbin_PROGRAMS =
 EXTRA_PROGRAMS =
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -112,6 +126,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/isnanf.m4 $(top_srcdir)/m4/isnanl.m4 \
 	$(top_srcdir)/m4/ldexpl.m4 $(top_srcdir)/m4/libpcap.m4 \
 	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/longlong.m4 \
+	$(top_srcdir)/m4/ltargz.m4 $(top_srcdir)/m4/ltdl.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
 	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
 	$(top_srcdir)/m4/math_h.m4 $(top_srcdir)/m4/memchr.m4 \
@@ -139,16 +154,47 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-LTLIBRARIES = $(noinst_LTLIBRARIES)
-am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man8dir)"
-PROGRAMS = $(bin_PROGRAMS)
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
+am__install_max = 40
+am__nobase_strip_setup = \
+  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
+am__nobase_strip = \
+  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
+am__nobase_list = $(am__nobase_strip_setup); \
+  for p in $$list; do echo "$$p $$p"; done | \
+  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
+  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
+    if (++n[$$2] == $(am__install_max)) \
+      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
+    END { for (dir in files) print dir, files[dir] }'
+am__base_list = \
+  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
+  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+am__uninstall_files_from_dir = { \
+  test -z "$$files" \
+    || { test ! -d "$$dir" && test ! -f "$$dir" && test ! -r "$$dir"; } \
+    || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
+         $(am__cd) "$$dir" && rm -f $$files; }; \
+  }
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" \
+	"$(DESTDIR)$(sbindir)" "$(DESTDIR)$(man8dir)"
+LTLIBRARIES = $(lib_LTLIBRARIES) $(noinst_LTLIBRARIES)
+PROGRAMS = $(bin_PROGRAMS) $(sbin_PROGRAMS)
 am_lltdscan_OBJECTS = lltdscan.$(OBJEXT)
 lltdscan_OBJECTS = $(am_lltdscan_OBJECTS)
-lltdscan_LDADD = $(LDADD)
+am__DEPENDENCIES_1 =
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+lltdscan_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(lltdscan_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -198,33 +244,6 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
-am__vpath_adj = case $$p in \
-    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
-    *) f=$$p;; \
-  esac;
-am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
-am__install_max = 40
-am__nobase_strip_setup = \
-  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
-am__nobase_strip = \
-  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
-am__nobase_list = $(am__nobase_strip_setup); \
-  for p in $$list; do echo "$$p $$p"; done | \
-  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
-  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
-    if (++n[$$2] == $(am__install_max)) \
-      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
-    END { for (dir in files) print dir, files[dir] }'
-am__base_list = \
-  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
-  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__uninstall_files_from_dir = { \
-  test -z "$$files" \
-    || { test ! -d "$$dir" && test ! -f "$$dir" && test ! -r "$$dir"; } \
-    || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
-         $(am__cd) "$$dir" && rm -f $$files; }; \
-  }
 man8dir = $(mandir)/man8
 NROFF = nroff
 MANS = $(man_MANS)
@@ -312,6 +331,7 @@ AM_DEFAULT_VERBOSITY = 1
 APPLE_UNIVERSAL_BUILD = 0
 AR = ar
 ARFLAGS = cru
+AS = as
 AUTOCONF = ${SHELL} /Users/nietzsche/lltdscan/missing autoconf
 AUTOHEADER = ${SHELL} /Users/nietzsche/lltdscan/missing autoheader
 AUTOMAKE = ${SHELL} /Users/nietzsche/lltdscan/missing automake-1.15
@@ -334,6 +354,9 @@ CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 DLLTOOL = false
+DLOPEN = -dlopen
+DLPREOPEN = -dlpreopen
+DOXYGEN = /opt/local/bin/doxygen
 DSYMUTIL = dsymutil
 DUMPBIN = 
 ECHO_C = \c
@@ -763,6 +786,7 @@ HAVE_WMEMCMP = 1
 HAVE_WMEMCPY = 1
 HAVE_WMEMMOVE = 1
 HAVE_WMEMSET = 1
+INCLTDL = -I$(top_srcdir)/libltdl
 INCLUDE_NEXT = include_next
 INCLUDE_NEXT_AS_FIRST_DIRECTIVE = include_next
 INSTALL = /opt/local/bin/ginstall -c
@@ -772,16 +796,31 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LD = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld
 LDFLAGS = 
+LEX = flex
+LEXLIB = -ll
+LEX_OUTPUT_ROOT = lex.yy
+LIBADD_DL =  
+LIBADD_DLD_LINK = 
+LIBADD_DLOPEN = 
+LIBADD_SHL_LOAD = 
+LIBLTDL = $(top_build_prefix)libltdl/libltdlc.la
 LIBNET_CONFIG = /opt/local/bin/libnet-config
-LIBOBJS =  ${LIBOBJDIR}mktime$U.o
-LIBS = -L/opt/local/lib  -lpcap -lm  -lnet
+LIBOBJS =  ${LIBOBJDIR}obstack$U.o
+LIBS = -lm -L/opt/local/lib  -lpcap  -lnet
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 
 #libtool 2.x
 LIBTOOL_DEPS = ./ltmain.sh
 LIPO = lipo
 LN_S = ln -s
-LTLIBOBJS =  ${LIBOBJDIR}mktime$U.lo
+LTDLDEPS = $(top_build_prefix)libltdl/libltdlc.la
+LTDLINCL = -I$(top_srcdir)/libltdl
+LTDLOPEN = libltdl
+LTLIBOBJS =  ${LIBOBJDIR}obstack$U.lo
+LT_ARGZ_H = lt__argz.h
+LT_CONFIG_H = config.h
+LT_DLLOADERS =  dlopen.la
+LT_DLPREOPEN = -dlpreopen dlopen.la 
 MAINT = #
 MAKEINFO = ${SHELL} /Users/nietzsche/lltdscan/missing makeinfo
 MANIFEST_TOOL = :
@@ -968,6 +1007,8 @@ V_PCAPDEP =
 WCHAR_T_SUFFIX = 
 WINDOWS_64_BIT_OFF_T = 0
 WINT_T_SUFFIX = 
+YACC = bison -y
+YFLAGS = 
 abs_builddir = /Users/nietzsche/lltdscan
 abs_srcdir = /Users/nietzsche/lltdscan
 abs_top_builddir = /Users/nietzsche/lltdscan
@@ -1011,6 +1052,8 @@ libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
 localstatedir = ${prefix}/var
+ltdl_LIBOBJS =  lt__argz.o
+ltdl_LTLIBOBJS =  lt__argz.lo
 mandir = ${datarootdir}/man
 mkdir_p = $(MKDIR_P)
 oldincludedir = /usr/include
@@ -1021,6 +1064,7 @@ psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
 srcdir = .
+sys_symbol_underscore = yes
 sysconfdir = ${prefix}/etc
 target = x86_64-apple-darwin13.4.0
 target_alias = 
@@ -1030,20 +1074,33 @@ target_vendor = apple
 top_build_prefix = 
 top_builddir = .
 top_srcdir = .
-AUTOMAKE_OPTIONS = gnu 1.11 check-news dist-bzip2 std-options subdir-objects
+AUTOMAKE_OPTIONS = gnu 1.15 check-news dist-bzip2 std-options subdir-objects
 ACLOCAL_AMFLAGS = -I m4
-AM_CFLAGS = $(INCLS) $(CFLAGS) $(V_CCOPT) $(V_INCLS) $(NETINC)
-AM_LDFLAGS = $(LDFLAGS) 
+AM_CFLAGS = -I lib $(INCLS) $(CFLAGS) $(V_CCOPT) $(V_INCLS) $(NETINC) $(LTDLINCL)
+AM_CPPFLAGS = -I lib $(INCLS) $(CFLAGS) $(V_CCOPT) $(V_INCLS) $(NETINC) $(LTDLINCL)
+AM_LDFLAGS = $(LIBLTDL) $(top_srcdir)/lib/libgnu.la -export-dynamic
 
-#noinst_LIBRARIES = liblltd.a
-#liblltd_a_SOURCES = lltd.c
+# Yacc / Flexx
+#AM_YFLAGS =
+#AM_LFLAGS =
 bin_PROGRAMS = lltdscan$(EXEEXT)
+
+# Sources
 lltdscan_SOURCES = lltdscan.c
+
+# Dependencies
 lltdscan_DEPENDENCIES = $(V_PCAPDEP)
+lltdscan_LDFLAGS = $(AM_LDFLAGS) -L./lib -no-undefined
 LIBLTDLDIR = $(LTDLOPEN)
 SUBDIRS = ${LIBLTDLDIR} lib
-man_MANS = lltdscan.8
-EXTRA_DIST = autogen.sh m4/gnulib-cache.m4
+
+# What libararies do we want to build?
+EXTRA_LTLIBRARIES = 
+lib_LTLIBRARIES = 
+
+# What libs do we want to link against?
+LDADD = 
+lltdscan_LDADD = $(LIBLTDL) $(top_srcdir)/lib/libgnu.la 
 
 #don't install headers  
 noinst_HEADERS = 
@@ -1051,8 +1108,16 @@ noinst_HEADERS =
 noinst_SCRIPT = autogen.sh
 #don't install unnecessary libs.
 noinst_LTLIBRARIES = 
+
+# Autogenerated files.
+BUILT_SOURCES = 
+
+# What documentation should we include?
+man_MANS = lltdscan.8
+EXTRA_DIST = autogen.sh m4/gnulib-cache.m4
 MAINTAINERCLEANFILES = Makefile.in lib/Makefile.in
-all: config.h
+DISTCLEANFILES = 
+all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
@@ -1105,6 +1170,41 @@ $(srcdir)/config.h.in: # $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
+
+install-libLTLIBRARIES: $(lib_LTLIBRARIES)
+	@$(NORMAL_INSTALL)
+	@list='$(lib_LTLIBRARIES)'; test -n "$(libdir)" || list=; \
+	list2=; for p in $$list; do \
+	  if test -f $$p; then \
+	    list2="$$list2 $$p"; \
+	  else :; fi; \
+	done; \
+	test -z "$$list2" || { \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(libdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(libdir)" || exit 1; \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(libdir)'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(libdir)"; \
+	}
+
+uninstall-libLTLIBRARIES:
+	@$(NORMAL_UNINSTALL)
+	@list='$(lib_LTLIBRARIES)'; test -n "$(libdir)" || list=; \
+	for p in $$list; do \
+	  $(am__strip_dir) \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(libdir)/$$f'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(libdir)/$$f"; \
+	done
+
+clean-libLTLIBRARIES:
+	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
+	@list='$(lib_LTLIBRARIES)'; \
+	locs=`for p in $$list; do echo $$p; done | \
+	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
+	      sort -u`; \
+	test -z "$$locs" || { \
+	  echo rm -f $${locs}; \
+	  rm -f $${locs}; \
+	}
 
 clean-noinstLTLIBRARIES:
 	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
@@ -1181,10 +1281,75 @@ installcheck-binPROGRAMS: $(bin_PROGRAMS)
 	    else echo "$$f does not support $$opt" 1>&2; bad=1; fi; \
 	  done; \
 	done; rm -f c$${pid}_.???; exit $$bad
+install-sbinPROGRAMS: $(sbin_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	@list='$(sbin_PROGRAMS)'; test -n "$(sbindir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(sbindir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(sbindir)" || exit 1; \
+	fi; \
+	for p in $$list; do echo "$$p $$p"; done | \
+	sed 's/$(EXEEXT)$$//' | \
+	while read p p1; do if test -f $$p \
+	 || test -f $$p1 \
+	  ; then echo "$$p"; echo "$$p"; else :; fi; \
+	done | \
+	sed -e 'p;s,.*/,,;n;h' \
+	    -e 's|.*|.|' \
+	    -e 'p;x;s,.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/' | \
+	sed 'N;N;N;s,\n, ,g' | \
+	$(AWK) 'BEGIN { files["."] = ""; dirs["."] = 1 } \
+	  { d=$$3; if (dirs[d] != 1) { print "d", d; dirs[d] = 1 } \
+	    if ($$2 == $$4) files[d] = files[d] " " $$1; \
+	    else { print "f", $$3 "/" $$4, $$1; } } \
+	  END { for (d in files) print "f", d, files[d] }' | \
+	while read type dir files; do \
+	    if test "$$dir" = .; then dir=; else dir=/$$dir; fi; \
+	    test -z "$$files" || { \
+	    echo " $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL_PROGRAM) $$files '$(DESTDIR)$(sbindir)$$dir'"; \
+	    $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL_PROGRAM) $$files "$(DESTDIR)$(sbindir)$$dir" || exit $$?; \
+	    } \
+	; done
+
+uninstall-sbinPROGRAMS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(sbin_PROGRAMS)'; test -n "$(sbindir)" || list=; \
+	files=`for p in $$list; do echo "$$p"; done | \
+	  sed -e 'h;s,^.*/,,;s/$(EXEEXT)$$//;$(transform)' \
+	      -e 's/$$/$(EXEEXT)/' \
+	`; \
+	test -n "$$list" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(sbindir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(sbindir)" && rm -f $$files
+
+clean-sbinPROGRAMS:
+	@list='$(sbin_PROGRAMS)'; test -n "$$list" || exit 0; \
+	echo " rm -f" $$list; \
+	rm -f $$list || exit $$?; \
+	test -n "$(EXEEXT)" || exit 0; \
+	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
+	echo " rm -f" $$list; \
+	rm -f $$list
+
+installcheck-sbinPROGRAMS: $(sbin_PROGRAMS)
+	bad=0; pid=$$$$; list="$(sbin_PROGRAMS)"; for p in $$list; do \
+	  case ' $(AM_INSTALLCHECK_STD_OPTIONS_EXEMPT) ' in \
+	   *" $$p "* | *" $(srcdir)/$$p "*) continue;; \
+	  esac; \
+	  f=`echo "$$p" | \
+	     sed 's,^.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/'`; \
+	  for opt in --help --version; do \
+	    if "$(DESTDIR)$(sbindir)/$$f" $$opt >c$${pid}_.out \
+	         2>c$${pid}_.err </dev/null \
+		 && test -n "`cat c$${pid}_.out`" \
+		 && test -z "`cat c$${pid}_.err`"; then :; \
+	    else echo "$$f does not support $$opt" 1>&2; bad=1; fi; \
+	  done; \
+	done; rm -f c$${pid}_.???; exit $$bad
 
 lltdscan$(EXEEXT): $(lltdscan_OBJECTS) $(lltdscan_DEPENDENCIES) $(EXTRA_lltdscan_DEPENDENCIES) 
 	@rm -f lltdscan$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(lltdscan_OBJECTS) $(lltdscan_LDADD) $(LIBS)
+	$(AM_V_CCLD)$(lltdscan_LINK) $(lltdscan_OBJECTS) $(lltdscan_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -1570,15 +1735,19 @@ distcleancheck: distclean
 	       $(distcleancheck_listfiles) ; \
 	       exit 1; } >&2
 check-am: all-am
-check: check-recursive
+check: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) check-recursive
 all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(MANS) $(HEADERS) \
 		config.h
+install-binPROGRAMS: install-libLTLIBRARIES
+
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man8dir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" "$(DESTDIR)$(sbindir)" "$(DESTDIR)$(man8dir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
-install: install-recursive
+install: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) install-recursive
 install-exec: install-exec-recursive
 install-data: install-data-recursive
 uninstall: uninstall-recursive
@@ -1604,15 +1773,18 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 clean: clean-recursive
 
-clean-am: clean-binPROGRAMS clean-generic clean-libtool \
-	clean-noinstLTLIBRARIES mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-libLTLIBRARIES \
+	clean-libtool clean-noinstLTLIBRARIES clean-sbinPROGRAMS \
+	mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
@@ -1639,7 +1811,8 @@ install-dvi: install-dvi-recursive
 
 install-dvi-am:
 
-install-exec-am: install-binPROGRAMS
+install-exec-am: install-binPROGRAMS install-libLTLIBRARIES \
+	install-sbinPROGRAMS
 
 install-html: install-html-recursive
 
@@ -1659,7 +1832,7 @@ install-ps: install-ps-recursive
 
 install-ps-am:
 
-installcheck-am: installcheck-binPROGRAMS
+installcheck-am: installcheck-binPROGRAMS installcheck-sbinPROGRAMS
 
 maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
@@ -1681,32 +1854,36 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS uninstall-man
+uninstall-am: uninstall-binPROGRAMS uninstall-libLTLIBRARIES \
+	uninstall-man uninstall-sbinPROGRAMS
 
 uninstall-man: uninstall-man8
 
-.MAKE: $(am__recursive_targets) all install-am install-strip
+.MAKE: $(am__recursive_targets) all check install install-am \
+	install-strip
 
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
 	am--refresh check check-am clean clean-binPROGRAMS \
-	clean-cscope clean-generic clean-libtool \
-	clean-noinstLTLIBRARIES cscope cscopelist-am ctags ctags-am \
-	dist dist-all dist-bzip2 dist-gzip dist-lzip dist-shar \
-	dist-tarZ dist-xz dist-zip distcheck distclean \
-	distclean-compile distclean-generic distclean-hdr \
-	distclean-libtool distclean-tags distcleancheck distdir \
-	distuninstallcheck dvi dvi-am html html-am info info-am \
-	install install-am install-binPROGRAMS install-data \
+	clean-cscope clean-generic clean-libLTLIBRARIES clean-libtool \
+	clean-noinstLTLIBRARIES clean-sbinPROGRAMS cscope \
+	cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
+	dist-gzip dist-lzip dist-shar dist-tarZ dist-xz dist-zip \
+	distcheck distclean distclean-compile distclean-generic \
+	distclean-hdr distclean-libtool distclean-tags distcleancheck \
+	distdir distuninstallcheck dvi dvi-am html html-am info \
+	info-am install install-am install-binPROGRAMS install-data \
 	install-data-am install-dvi install-dvi-am install-exec \
 	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-man8 install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installcheck-binPROGRAMS \
-	installdirs installdirs-am maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS \
-	uninstall-man uninstall-man8
+	install-info-am install-libLTLIBRARIES install-man \
+	install-man8 install-pdf install-pdf-am install-ps \
+	install-ps-am install-sbinPROGRAMS install-strip installcheck \
+	installcheck-am installcheck-binPROGRAMS \
+	installcheck-sbinPROGRAMS installdirs installdirs-am \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am tags tags-am uninstall uninstall-am \
+	uninstall-binPROGRAMS uninstall-libLTLIBRARIES uninstall-man \
+	uninstall-man8 uninstall-sbinPROGRAMS
 
 .PRECIOUS: Makefile
 

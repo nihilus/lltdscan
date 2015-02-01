@@ -43,6 +43,15 @@
 /* Define as the word index where to find the sign of 'double'. */
 #undef DBL_SIGNBIT_WORD
 
+/* Define to nothing if C supports flexible array members, and to 1 if it does
+   not. That way, with a declaration like `struct s { int n; double
+   d[FLEXIBLE_ARRAY_MEMBER]; };', the struct hack can be used with pre-C99
+   compilers. When computing the size of such an object, don't use 'sizeof
+   (struct s)' as it overestimates the size. Use 'offsetof (struct s, d)'
+   instead. Don't use 'offsetof (struct s, d[0])', as this doesn't work with
+   MSVC and with C++ compilers. */
+#undef FLEXIBLE_ARRAY_MEMBER
+
 /* Define as the bit index in the word where to find bit 0 of the exponent of
    'float'. */
 #undef FLT_EXPBIT0_BIT
@@ -145,6 +154,9 @@
 /* Define if the copysign function is declared in <math.h> and available in
    libc. */
 #undef HAVE_COPYSIGN_IN_LIBC
+
+/* Define to 1 if C supports variable-length arrays. */
+#undef HAVE_C_VARARRAYS
 
 /* Define to 1 if you have the `daemon' function. */
 #undef HAVE_DAEMON
@@ -963,6 +975,9 @@
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
 
+/* Define to 1 if you have the `strcasecmp' function. */
+#undef HAVE_STRCASECMP
+
 /* Define to 1 if you have the `strchr' function. */
 #undef HAVE_STRCHR
 
@@ -1336,6 +1351,10 @@
 # endif
 #endif
 
+/* Define to 1 if `lex' declares `yytext' as a `char *' by default, not a
+   `char[]'. */
+#undef YYTEXT_POINTER
+
 /* Enable large inode numbers on Mac OS X 10.5.  */
 #ifndef _DARWIN_USE_64_BIT_INODE
 # define _DARWIN_USE_64_BIT_INODE 1
@@ -1384,6 +1403,11 @@
    <pthread.h>, or <semaphore.h> is not used. If the typedef were allowed, the
    #define below would cause a syntax error. */
 #undef _UINT32_T
+
+/* Define for Solaris 2.5.1 so the uint64_t typedef from <sys/synch.h>,
+   <pthread.h>, or <semaphore.h> is not used. If the typedef were allowed, the
+   #define below would cause a syntax error. */
+#undef _UINT64_T
 
 /* Define for Solaris 2.5.1 so the uint8_t typedef from <sys/synch.h>,
    <pthread.h>, or <semaphore.h> is not used. If the typedef were allowed, the
@@ -1583,6 +1607,10 @@
 /* Define to the type of an unsigned integer type of width exactly 32 bits if
    such a type exists and the standard includes do not define it. */
 #undef uint32_t
+
+/* Define to the type of an unsigned integer type of width exactly 64 bits if
+   such a type exists and the standard includes do not define it. */
+#undef uint64_t
 
 /* Define to the type of an unsigned integer type of width exactly 8 bits if
    such a type exists and the standard includes do not define it. */

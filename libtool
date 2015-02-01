@@ -38,14 +38,23 @@ available_tags='CXX '
 macro_version=2.4.4
 macro_revision=2.4.4
 
+# Assembler program.
+AS="as"
+
+# DLL creation program.
+DLLTOOL="false"
+
+# Object dumper program.
+OBJDUMP="false"
+
 # Whether or not to build shared libraries.
-build_libtool_libs=no
+build_libtool_libs=yes
+
+# What type of objects to build.
+pic_mode=yes
 
 # Whether or not to build static libraries.
 build_old_libs=yes
-
-# What type of objects to build.
-pic_mode=default
 
 # Whether or not to optimize for fast installation.
 fast_install=needless
@@ -117,9 +126,6 @@ to_host_file_cmd=func_convert_file_noop
 # convert $build files to toolchain format.
 to_tool_file_cmd=func_convert_file_noop
 
-# An object symbol dumper.
-OBJDUMP="false"
-
 # Method to check whether dependent libraries are shared objects.
 deplibs_check_method="pass_all"
 
@@ -131,9 +137,6 @@ file_magic_glob=""
 
 # Find potential files using nocaseglob when deplibs_check_method = "file_magic".
 want_nocaseglob="no"
-
-# DLL creation program.
-DLLTOOL="false"
 
 # Command to associate shared and link libraries.
 sharedlib_from_linklib_cmd="printf %s\\n"
@@ -285,13 +288,13 @@ sys_lib_search_path_spec="/Applications/Xcode.app/Contents/Developer/Toolchains/
 sys_lib_dlsearch_path_spec="/usr/local/lib /lib /usr/lib"
 
 # Whether dlopen is supported.
-dlopen_support=unknown
+dlopen_support=yes
 
 # Whether dlopen of programs is supported.
-dlopen_self=unknown
+dlopen_self=yes
 
 # Whether dlopen of statically linked programs is supported.
-dlopen_self_static=unknown
+dlopen_self_static=yes
 
 # Commands to strip libraries.
 old_striplib="strip -S"

@@ -1,6 +1,19 @@
+dnl/*
+dnl    Copyright (C) 2015 Markus Gothe <nietzsche@lysator.liu.se>
 dnl
-dnl   Author Markus Gothe <nietzsche@lysator.liu.se>
+dnl    This program is free software: you can redistribute it and/or modify
+dnl    it under the terms of the GNU General Public License as
+dnl    published by the Free Software Foundation, either version 3 of the
+dnl    License, or (at your option) any later version.
 dnl
+dnl    This program is distributed in the hope that it will be useful,
+dnl    but WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+dnl    GNU General Public License for more details.
+dnl
+dnl    You should have received a copy of the GNU General Public License
+dnl    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+dnl */
 
 dnl Process this file with autoconf to produce a configure script.
 
@@ -16,9 +29,10 @@ AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
 dnl macros for automake
+AM_INIT_AUTOMAKE([gnu 1.15 check-news dist-bzip2 std-options subdir-objects])
 AM_MAINTAINER_MODE
+AC_PROG_MAKE_SET
 AC_CONFIG_MACRO_DIR([m4])
-
 
 dnl PCAP-setup
 AC_LBL_C_INIT_BEFORE_CC(V_INCLS)
@@ -27,16 +41,30 @@ dnl Checks for programs.
 AC_PROG_CC
 AC_LBL_C_INIT(V_CCOPT, V_INCLS)
 AC_LBL_C_INLINE
-AC_PROG_CXX
-AC_PROG_AWK
-AC_PROG_CPP
-AC_PROG_INSTALL
+dnl /bin/ln -s
 AC_PROG_LN_S
+dnl /usr/bin/make
 AC_PROG_MAKE_SET
+dnl /usr/bin/install
+AC_PROG_INSTALL
+dnl /bin/mkdir -p
+AC_PROG_MKDIR_P
+dnl /usr/bin/yacc
+AC_PROG_YACC
+dnl /usr/bin/lex
+AC_PROG_LEX
+dnl /usr/bin/sed
+AC_PROG_SED
+dnl /usr/bin/grep
+AC_PROG_GREP
+dnl /usr/bin/awk
+AC_PROG_AWK
+dnl /usr/bin/doxygen
+AC_PATH_PROG(DOXYGEN, doxygen, "")
+AM_CONDITIONAL(CONFIG_DOXYGEN, [test ! -z "$DOXYGEN"])
 
-dnl macros for automake
-AM_INIT_AUTOMAKE([foreign std-options])
-AC_CONFIG_MACRO_DIR([m4])
+dnl /usr/bin/rm
+dnl AC_PROG_RM
 
 dnl shared/static
 dnl linking & ltdl
@@ -70,7 +98,14 @@ AC_PROG_CC_C99
 AC_PROG_CPP
 AC_REQUIRE_CPP
 AC_PROG_CC_C_O
+AC_PROG_CXX
+AC_C_FLEXIBLE_ARRAY_MEMBER
+AC_C_VARARRAYS
 AC_EXEEXT
+
+dnl check for OpenMP
+dnl AC_OPENMP
+
 
 dnl Check for libpcap
 AC_LBL_LIBPCAP(V_PCAPDEP, V_INCLS)
@@ -111,7 +146,7 @@ AC_SUBST(NETINC)
 AC_SUBST(NETLIB)
 LIBS="$LIBS $NETLIB"
 
-_SEARCH_LIBS([strerror], [cposix])
+AC_SEARCH_LIBS([strerror], [cposix])
 AC_CHECK_LIB([socket], [socket])
 AC_CHECK_LIB([rt], [aio_read])
 AC_CHECK_LIB([rt], [signal])

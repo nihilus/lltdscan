@@ -34,9 +34,9 @@ void lltd_dump_tlv(const u_char*p, int len){
 		case 0x0C: desc="Link speed"; 
 			u_int32_t spd = (p[2]<<24) + (p[3]<<16) + (p[4]<<8) + p[5];
 			if( spd >= 10000){
-				sprintf(buf, "%d Mbit/s", spd/10000);
+				snprintf(buf, sizeof(buf)/sizeof(buf[0]), "%d Mbit/s", spd/10000);
 			} else {
-				sprintf(buf, "%d kbit/s", spd/10);
+				snprintf(buf, sizeof(buf)/sizeof(buf[0]), "%d kbit/s", spd/10);
 			}
 			break;
 		case 0x0F: desc="Name"; break;
