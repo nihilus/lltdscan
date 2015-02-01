@@ -27,6 +27,7 @@ const char rcsid[] = "Copyright (C) 2015, Markus Gothe <nietzsche@lysator.liu.se
 #include <libnet.h>
 
 #include <netinet/if_ether.h>
+#include "progname.h"
 
 #include "lltd.c"
 
@@ -149,6 +150,7 @@ int main (int argc, char *argv[]){
 	memset(&itimer, 0, sizeof(itimer));
 	itimer.it_value.tv_sec = 3;
 
+	setprogname(argv[0]);
 
         while ((c = getopt(argc, argv, "t:i:hvu")) != EOF) {
                 switch (c) {
@@ -172,16 +174,18 @@ int main (int argc, char *argv[]){
                         unicode = 1;
                         break;
                 case 'h': // show usage
-                        usage(argv[0]);
+                        usage(getprogname());
                         exit(EXIT_SUCCESS);
                 default:
                         exit(EXIT_FAILURE);
                 }
         }
 	argc -= optind; argv += optind;
-
+	
+	setprogname(argv[0]);
+	
 	if( argc > 1 ){
-		usage(argv[0]);
+		usage(getprogname());
 		exit(EXIT_FAILURE);
 	}
 	if( argc == 1 ){

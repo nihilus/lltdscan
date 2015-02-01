@@ -44,3 +44,5 @@
 /wchar.in.h
 /xsize.c
 /xsize.h
+/progname.c
+/progname.h
