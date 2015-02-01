@@ -49,7 +49,7 @@ void lltd_dump_tlv(const u_char*p, int len){
 			}
 			break;
 	}
-	if(!desc) sprintf(desc=buf, "0x%02x", *p);
+	if(!desc) snprintf(desc=buf, sizeof(buf)/sizeof(buf[0]), "0x%02x", *p);
 	printf("  %10s: ", desc);
 	if( *buf && desc!=buf)
 		printf("%s",buf);
@@ -140,7 +140,7 @@ u_char* lltd_extract_ip(const u_char*p){
 	while(*p){
 		l = p[1];
 		if( *p == 0x07 ){
-			sprintf(buf, "%d.%d.%d.%d", p[2], p[3], p[4], p[5]);
+			snprintf(buf, sizeof(buf)/sizeof(buf[0]), "%d.%d.%d.%d", p[2], p[3], p[4], p[5]);
 			return buf;
 		}
 		p += l + 2;

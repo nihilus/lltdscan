@@ -21,6 +21,7 @@ const char rcsid[] = "Copyright (C) 2015, Markus Gothe <nietzsche@lysator.liu.se
 #include "config.h"
 #include <pcap.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <time.h>
 #include <signal.h>
 #include <libnet.h>
