@@ -50,7 +50,7 @@ static int unicode = 0;
 static uint64_t hosts[200];
 static int nhosts = 0;
 
-static u_char* mac_to_find = NULL;
+static uint8_t* mac_to_find = NULL;
 static int mac_found = 0;
 
 static pcap_t *pcap_handle;
@@ -71,10 +71,10 @@ long tv_diff2msec(const struct timeval*ptv){
 	return dmsec;
 }
 
-void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet){
+void got_packet(uint8_t *args, const struct pcap_pkthdr *header, const uint8_t *packet){
 	time_t dsec;
 	suseconds_t dmsec;
-	u_char *p;
+	uint8_t *p;
 	int i,j;
 	uint64_t host_id=0;
 	char mac[0x20];
@@ -140,11 +140,11 @@ int main (int argc, char *argv[]){
 	bpf_u_int32	mask;	/* Our netmask */
 	bpf_u_int32	net;	/* Our IP */
 	struct pcap_pkthdr header;
-	const u_char   *packet;
+	const uint8_t   *packet;
 	int c,i;
 	libnet_t       *l;
 	libnet_ptag_t   eth_ptag = 0;
-	u_char buf[0x100];
+	uint8_t buf[0x100];
 	struct itimerval itimer;
 	memset(&itimer, 0, sizeof(itimer));
 	itimer.it_value.tv_sec = 3;

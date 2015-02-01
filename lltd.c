@@ -1,4 +1,4 @@
-void hexdump(const u_char*p, int len){
+void hexdump(const uint8_t*p, int len){
 	int i;
 	for(i=0; i<len; i++){
 		printf("%02x ",p[i]);
@@ -6,7 +6,7 @@ void hexdump(const u_char*p, int len){
 //	puts("");
 }
 
-void lltd_dump_tlv(const u_char*p, int len){
+void lltd_dump_tlv(const uint8_t*p, int len){
 	char*desc=NULL;
 	char buf[0x40];
 	char comment[0x100];
@@ -61,9 +61,9 @@ void lltd_dump_tlv(const u_char*p, int len){
 	puts("");
 }
 
-u_char* lltd_extract_name(const u_char*p){
-	u_char l;
-	static u_char namebuf[0x40];
+uint8_t* lltd_extract_name(const uint8_t*p){
+	uint8_t l;
+	static uint8_t namebuf[0x40];
 
 	while(*p){
 		l = p[1];
@@ -86,16 +86,16 @@ u_char* lltd_extract_name(const u_char*p){
 	return NULL;
 }
 
-u_char* lltd_extract_unicode_name(const u_char*p){
-	u_char l;
-	static u_char namebuf[0x40];
+uint8_t* lltd_extract_unicode_name(const uint8_t*p){
+	uint8_t l;
+	static uint8_t namebuf[0x40];
 
 	while(*p){
 		l = p[1];
 		if( *p == 0x0F ){
 			int namelen = l/2;
 			p += 2;
-			u_char *pbuf;
+			uint8_t *pbuf;
 			/* convert ucs-2le to utf-8 */
 			/* FIXME: maybe, this is utf-16le, not ucs-2le? */
 			for(pbuf=namebuf; namelen>0; namelen--){
@@ -133,9 +133,9 @@ u_char* lltd_extract_unicode_name(const u_char*p){
 	return NULL;
 }
 
-u_char* lltd_extract_ip(const u_char*p){
-	u_char l;
-	static u_char buf[20];
+uint8_t* lltd_extract_ip(const uint8_t*p){
+	uint8_t l;
+	static uint8_t buf[20];
 
 	while(*p){
 		l = p[1];
@@ -148,8 +148,8 @@ u_char* lltd_extract_ip(const u_char*p){
 	return NULL;
 }
 
-void lltd_dump(const u_char*p){
-	u_char l;
+void lltd_dump(const uint8_t*p){
+	uint8_t l;
 
 	while(*p){
 		l = p[1];
