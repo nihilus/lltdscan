@@ -117,7 +117,7 @@ void got_packet(uint8_t *args, const struct pcap_pkthdr *header, const uint8_t *
         lltd_dump(packet+46);
     } else if(verbose == 2) {
         printf("\n\t");
-        for(i=46; i<header->caplen; i++) {
+        for(i = 46; i<header->caplen; i++) {
             printf("%02x ",packet[i]);
             j++;
             if(j == 16) {
@@ -196,9 +196,7 @@ int main (int argc, char *argv[])
     argc -= optind;
     argv += optind;
 
-    setprogname(argv[0]);
-
-    if( argc > 1 ) {
+    if(argc > 1) {
         usage(getprogname());
         exit(EXIT_FAILURE);
     }
@@ -212,13 +210,12 @@ int main (int argc, char *argv[])
 
     setlinebuf(stdout);
 
-    if(dev != NULL) {
-        dev = pcap_lookupdev(errbuf);
-    }
-
-    if (dev == NULL) {
-        fprintf(stderr, "Couldn't find default device: %s\n", errbuf);
-        return (2);
+    if(dev == NULL){
+       dev = pcap_lookupdev(errbuf);
+ 	   if (dev == NULL) {
+    	    fprintf(stderr, "Couldn't find default device: %s\n", errbuf);
+        	return (2);
+ 	   }
     }
 
     printf("interface %s\n",dev);
@@ -253,7 +250,7 @@ int main (int argc, char *argv[])
     memcpy(buf+16, &start_time.tv_sec, 2); // emulate sequence number
 
     eth_ptag = libnet_build_ethernet(
-                   hwdst, /* ethernet destination */
+                   (uint8_t *)hwdst, /* ethernet destination */
                    ha->ether_addr_octet,
                    /* ethernet source */
                    0x88d9,        /* protocol type */
@@ -321,7 +318,7 @@ int main (int argc, char *argv[])
 
     printf("found %d hosts in %d.%d seconds", nhosts, i/1000, i%1000);
 
-    if( mac_to_find && !mac_found ) {
+    if(mac_to_find && !mac_found) {
         printf(", but '%s' is not found.\n", mac_to_find);
     } else {
         puts("");

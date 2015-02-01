@@ -9,7 +9,7 @@ void hexdump(const uint8_t*p, int len)
 
 void lltd_dump_tlv(const uint8_t*p, int len)
 {
-    char*desc=NULL;
+    char *desc=NULL;
     char buf[0x40];
     char comment[0x100];
     *buf=0;
@@ -71,7 +71,7 @@ void lltd_dump_tlv(const uint8_t*p, int len)
         printf("%s",buf);
     else
         hexdump(p+2,len);
-    if( *comment ) {
+    if(*comment) {
         printf("\t(%s)", comment);
     }
     puts("");
