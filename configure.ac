@@ -16,7 +16,6 @@ AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
 dnl macros for automake
-dnl AM_INIT_AUTOMAKE([gnu 1.11 check-news dist-bzip2 std-options subdir-objects])
 AM_MAINTAINER_MODE
 AC_PROG_MAKE_SET
 AC_CONFIG_MACRO_DIR([m4])
