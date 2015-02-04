@@ -145,7 +145,11 @@ int main (int argc, char *argv[])
     char *dev = NULL;
     char errbuf[ERRBUF_SIZE];	/* Error string */
     struct bpf_program fp;	/* The compiled filter */
-    char filter_exp[] = "ether proto 0x88d9"; //"port 80";	/* The filter expression */
+#if 1
+    char filter_exp[] = "ether proto 0x88d9"; /* The filter expression */
+#else
+    char filter_exp[] = "proto 0x88d9"; /* The filter expression */
+#endif
     bpf_u_int32	mask;	/* Our netmask */
     bpf_u_int32	net;	/* Our IP */
     struct pcap_pkthdr header;
