@@ -25,9 +25,11 @@ const char rcsid[] = "Copyright (C) 2015, Markus Gothe <nietzsche@lysator.liu.se
 #include <time.h>
 #include <signal.h>
 #include <libnet.h>
+#ifdef HAVE_LIBBSD
+#include <bsd/stdlib.h>
+#endif
 
 #include <netinet/if_ether.h>
-#include "progname.h"
 
 #include "lltd.c"
 

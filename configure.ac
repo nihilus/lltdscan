@@ -279,6 +279,7 @@ AC_CHECK_MEMBERS([struct stat.st_rdev])
 dnl AC_IRIX_SUN
 AC_FUNC_GETMNTENT
 AC_CHECK_LIB([sun], [getpwnam])
+AC_CHECK_LIB([bsd], [getprogname])
 
 dnl subst
 AC_SUBST(V_CCOPT)
